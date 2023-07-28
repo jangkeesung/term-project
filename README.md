@@ -1,5 +1,5 @@
 # term-project
-
+## Vue.js를 이용한 Front-End 페이지 구현입니다.
 ## Project setup
 ```
 npm install
