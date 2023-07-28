@@ -1,20 +1,17 @@
 <template>
     <div>
         <NavBar />
-        <Header />
         <Section />
         <Footer />
     </div>
 </template>
 <script>
 import NavBar from '../components/NavBar.vue';
-import Header from '../components/Header.vue';
-import Section from '../components/Section.vue';
+import Section from '../components/ViewRecipe.vue';
 import Footer from '../components/Footer.vue';
 export default {
     components: {
         NavBar,
-        Header,
         Section,
         Footer
     }
