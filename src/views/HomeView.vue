@@ -12,6 +12,9 @@ import Header from '../components/HomeHeader.vue';
 import Section from '../components/HomeSection.vue';
 import Footer from '../components/Footer.vue';
 export default {
+    beforeCreate() {
+        this.$store.dispatch('getMemberInfo');
+    },
     components: {
         NavBar,
         Header,
