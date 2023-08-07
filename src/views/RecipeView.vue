@@ -1,7 +1,7 @@
 <template>
     <div>
         <NavBar />
-        <Section />
+        <Section v-if='recipeDTO' v-bind:dto='recipeDTO' />
         <Footer />
     </div>
 </template>
@@ -11,21 +11,26 @@ import Section from '../components/ViewSection.vue';
 import Footer from '../components/Footer.vue';
 import axios from 'axios';
 export default {
+    data() {
+        return {
+            recipeDTO: null
+        };
+    },
+    beforeCreate() {
+        this.$store.dispatch('getMemberInfo');
+    },
+    props: ['query'],
     components: {
         NavBar,
         Section,
         Footer
     },
-    data() {
-        return {
-
-        }
-    },
     created() {
-        // axios.get()
-        // .then()
-        // .catch()
-    }
+      axios.get("/term/view-recipe/" + this.$props.query)
+      .then((response) =>{
+          this.recipeDTO = response.data;
+      });
+    }   
 }
 </script>
 <style scoped>

@@ -9,7 +9,8 @@ const routes = [
   {
     path: '/view-recipe',
     name: 'recipe',
-    component: () => import('../views/RecipeView.vue')
+    component: () => import('../views/RecipeView.vue'),
+    props: route => ({ query: route.query.seq })
   },
   {
     path: '/login',

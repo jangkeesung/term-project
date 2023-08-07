@@ -1,9 +1,8 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
+import createPersistedState from 'vuex-persistedstate';
 export default createStore({
   state: {
-    RecipeDTO: null,
-    RecipeList: [],
     User: null
   },
   getters: {
@@ -28,12 +27,17 @@ export default createStore({
       axios.get('/term/login/users', config)
       .then(response => {
           let userInfo = response.data;
-          console.log(userInfo);
+          //console.log(userInfo);
           commit("loginSuccess", userInfo);
       });
     }
-    
+
   },
   modules: {
-  }
+  },
+  plugins: [
+    createPersistedState({
+      paths: ["noticeStore"]
+    })
+  ]
 })
