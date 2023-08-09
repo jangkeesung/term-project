@@ -37,7 +37,7 @@ export default createStore({
   },
   plugins: [
     createPersistedState({
-      paths: ["noticeStore"]
+      paths: ["store"]
     })
   ]
 })

@@ -10,7 +10,7 @@
                             <router-link to="/" class="nav-link active" aria-current="page">Home</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/view-recipe" class="nav-link active" aria-current="page">recipe</router-link>
+                            <router-link to="/add-recipe" class="nav-link active" aria-current="page">레시피 등록</router-link>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>

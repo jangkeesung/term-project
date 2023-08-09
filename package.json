@@ -7,10 +7,14 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^39.0.0",
+    "@ckeditor/ckeditor5-vue": "^5.1.0",
     "axios": "^1.4.0",
     "core-js": "^3.8.3",
+    "jquery": "^3.7.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vue3-summernote-editor": "^1.0.2",
     "vuex": "^4.0.0",
     "vuex-persistedstate": "^4.1.0"
   },
