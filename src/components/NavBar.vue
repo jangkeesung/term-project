@@ -5,9 +5,9 @@
                 <router-link to="/" class="navbar-brand">OurRecipes</router-link>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4" v-if="$store.state.User != null">
                         <li class="nav-item">
-                            <router-link to="/" class="nav-link active" aria-current="page">Home</router-link>
+                            <router-link to="/my-recipe" class="nav-link active" aria-current="page">내 레시피</router-link>
                         </li>
                         <li class="nav-item">
                             <router-link to="/add-recipe" class="nav-link active" aria-current="page">레시피 등록</router-link>

@@ -29,6 +29,7 @@ export default {
       axios.get("/term/view-recipe/" + this.$props.query)
       .then((response) =>{
           this.recipeDTO = response.data;
+        //   console.log(this.recipeDTO);
       });
     }   
 }

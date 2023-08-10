@@ -12,24 +12,32 @@ export default createStore({
     loginSuccess(state, userInfo) {
       if (userInfo != '' && userInfo != null) {
         state.User = userInfo;
+        console.log(state.User.id);
       }
+    },
+    loginFail(state) {
+      state.User == null;
     }
 
   },
   actions: {
     getMemberInfo({ commit }) {
       let token = localStorage.getItem("access_token");
-      let config = {
-        headers: {
-            "access-token": token
+      if (token) {
+        let config = {
+          headers: {
+              "access-token": token
+          }
         }
+        axios.get('/term/login/users', config)
+        .then(response => {
+            let userInfo = response.data;
+            //console.log(userInfo);
+            commit("loginSuccess", userInfo);
+        }).catch(()=>{
+          commit('loginFail');
+        });
       }
-      axios.get('/term/login/users', config)
-      .then(response => {
-          let userInfo = response.data;
-          //console.log(userInfo);
-          commit("loginSuccess", userInfo);
-      });
     }
 
   },

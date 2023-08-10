@@ -28,9 +28,14 @@ export default {
         }
     },
     created() {
-        axios.get('/term/recipelist').then((response)=>{
-          this.recipes = response.data;
-      });
+        if (this.$store.state.User == null) {
+            alert('로그인 회원 기능입니다.');
+            location.href = '#/';
+        } else {
+            axios.get('/term/my-recipe',{ params: { writer: this.$store.state.User.id } }).then((response)=>{
+              this.recipes = response.data;
+          });
+        }
     }
 }
 </script>

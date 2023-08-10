@@ -1,30 +1,34 @@
 <template lang="">
     <section class="py-5 px-5 row gx-4 gx-lg-5 align-items-center">
-        <div>
-            <div class="mb-3">
-	            <input class="title-box" type="text" name="title" placeholder="제목을 입력해주세요.">
-			</div>
-            <ul>
-                <li v-for="(item, index) in snapshot" :key="item">
-                    <div class="d-flex mt-5 mb-5 snapshot">
-                        <div class="custom-file col-md-6">
-                            <div :id="'imagePreview' + index" class="px-5"></div>
-                            <input style="display:none;" 
+        <form v-on:submit.prevent="onClickFormButton">
+            <div>
+                <div class="mb-3">
+                    <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject">
+                </div>
+                <select class="form-select" aria-label="Default select example" name="category" required v-model="category">
+                    <!-- <option selected>카테고리</option> -->
+                    <option v-for="(item, index) in categorylist" :key="item"  :value="item.seq">{{item.name}}</option>
+                </select>
+                    <div v-for="(item, index) in snapshot" :key="item">
+                        <div class="d-flex mt-5 mb-5 snapshot">
+                            <div class="custom-file col-md-6">
+                                <div :id="'imagePreview' + index" class="px-5"></div>
+                                <input style="display:none;" 
                                 :id="'customFile' + index" type="file" 
-                                @change="readInputFile($event, index)"/>
+                                @change="readInputFile($event, index)" name="pic"/>
                                 <label :for="'customFile' + index" class="btn btn-secondary mt-2 btn-add-pic">사진등록</label>
+                            </div>
+                            <br>
+                            <textarea name="content" v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요." required></textarea>
                         </div>
-                        <br>
-                        <textarea v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요."></textarea>
+                        <button type="button" class="btn btn-secondary" @click="deleteSnapshot(index)">x</button>
                     </div>
-                </li>
-            </ul>
-        </div>
-        <div class="add-section">
-            <button class="btn btn-primary btn-more mb-3" @click="addSnapshot">추가</button>
-        </div>
-        
-        <button class="btn btn-primary" @click="onClickFormButton">등록하기</button>
+            </div>
+            <div class="add-section">
+                <button class="btn btn-primary btn-more mb-3" @click="addSnapshot" type="button">항목 추가</button>
+            </div>
+        <button class="btn btn-primary" type="submit">등록하기</button>
+    </form>
     </section>
 </template>
 <script>
@@ -33,8 +37,20 @@ import $ from 'jquery';
 export default {
     data() {
         return{
-            snapshot: [{pic: null, content: ''}]
+            snapshot: [{pic: null, content: ''}],
+            categorylist: [],
+            subject: '',
+            ingredient: [],
+            category: ''
         };
+    },
+    created() {
+        console.log('created');
+        axios.get("/term/get-category").then((response)=>{
+            response.data.forEach((item, index)=>{
+                this.categorylist.push({seq: item.ct_seq, name: item.ct_name});
+            });
+        });
     },
     computed: {
         countUp: function() {
@@ -44,6 +60,9 @@ export default {
     methods: {
         addSnapshot() {
             this.snapshot.push({pic: null, content: ''});
+        },
+        deleteSnapshot(index) {
+            this.snapshot.splice(index, 1);
         },
         readInputFile(e, index) {// 미리보기 기능구현
             const self = this;
@@ -71,21 +90,42 @@ export default {
 
             let pic = [];
             let content = [];
+            let valid = true; // 모든 사항이 충족됐는지 확인
 
             this.snapshot.forEach((item, index) => {
-                // pic.push(item.pic);
-                // content.push(item.content);
+                if (item.pic == null) {
+                    alert('이미지를 첨부해주세요');
+                    valid = false;
+                    return;
+                }
+
                 formData.append('pic', item.pic);
                 formData.append('content', item.content);
             });
 
+            formData.append('subject', this.subject);
+            formData.append('category', this.category);
+            formData.append('writer', this.$store.state.User.id);
 
-            try {
-                axios.post('/term/add-recipe/', null, formData).then((response) => {
-                    console.log(response);
-                });
-            } catch (e) {
-                console.error('api 요청 에러:', e);
+            if (valid) {
+                try {
+                    axios.post('/term/add-recipe', formData).then((response) => {
+                        // console.log(response);
+                        if(response.data) {
+                            Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: '레시피 등록완료!',
+                            showConfirmButton: false,
+                            timer: 1500
+                            }).then(() => {
+                                location.href="#/";
+                            });
+                        }
+                    });
+                } catch (e) {
+                    console.error('api 요청 에러:', e);
+                }
             }
         }
     }
@@ -99,10 +139,6 @@ export default {
     .snapshot {
         padding: 10px;
         border: 1px solid #EEE;
-    }
-
-    .btn-more {
-        
     }
     .title-box {
 	width: 100%;

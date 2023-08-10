@@ -17,6 +17,13 @@ export default {
         Header,
         Section,
         Footer
+    },
+    beforeCreate() {
+        this.$store.dispatch('getMemberInfo');
+        if (this.$store.state.User == null) {
+            alert('로그인 회원 기능입니다.');
+            location.href = '#/';
+        }
     }
 }
 </script>
