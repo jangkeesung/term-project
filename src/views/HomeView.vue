@@ -27,8 +27,8 @@ export default {
             recipes: null
         }
     },
-    created() {
-        axios.get('/term/recipelist').then((response)=>{
+    async created() {
+        await axios.get('/term/recipelist').then((response)=>{
           this.recipes = response.data;
       });
     }

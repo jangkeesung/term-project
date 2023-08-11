@@ -12,7 +12,7 @@ export default createStore({
     loginSuccess(state, userInfo) {
       if (userInfo != '' && userInfo != null) {
         state.User = userInfo;
-        console.log(state.User.id);
+        // console.log(state.User.id);
       }
     },
     loginFail(state) {

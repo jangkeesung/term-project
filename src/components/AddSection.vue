@@ -6,6 +6,7 @@
                     <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject">
                 </div>
                 <select class="form-select" aria-label="Default select example" name="category" required v-model="category">
+                    <option disabled value="">카테고리를 선택하세요</option>
                     <option v-for="(item, index) in categorylist" :key="item"  :value="item.seq">{{item.name}}</option>
                 </select>
                     <div v-for="(item, index) in snapshot" :key="item">
@@ -85,6 +86,11 @@ export default {
             let pic = [];
             let content = [];
             let valid = true; // 모든 사항이 충족됐는지 확인
+
+            if (this.snapshot.length < 1) {
+                alert('최소 하나 이상의 스냅샷을 작성해주세요.');
+                return;
+            }
 
             this.snapshot.forEach((item, index) => {
                 if (item.pic == null) {
