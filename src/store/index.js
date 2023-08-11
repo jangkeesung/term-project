@@ -17,11 +17,12 @@ export default createStore({
     },
     loginFail(state) {
       state.User == null;
+      alert('로그인 실패');
     }
 
   },
   actions: {
-    getMemberInfo({ commit }) {
+    async getMemberInfo({ commit }) {
       let token = localStorage.getItem("access_token");
       if (token) {
         let config = {
@@ -29,11 +30,10 @@ export default createStore({
               "access-token": token
           }
         }
-        axios.get('/term/login/users', config)
+        await axios.get('/term/login/users', config)
         .then(response => {
-            let userInfo = response.data;
-            //console.log(userInfo);
-            commit("loginSuccess", userInfo);
+          let userInfo = response.data;
+          commit("loginSuccess", userInfo);
         }).catch(()=>{
           commit('loginFail');
         });

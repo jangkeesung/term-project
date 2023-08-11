@@ -25,8 +25,8 @@ export default {
         Section,
         Footer
     },
-    created() {
-      axios.get("/term/view-recipe/" + this.$props.query)
+    async created() {
+      await axios.get("/term/view-recipe/" + this.$props.query)
       .then((response) =>{
           this.recipeDTO = response.data;
         //   console.log(this.recipeDTO);

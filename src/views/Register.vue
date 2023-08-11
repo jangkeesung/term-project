@@ -9,25 +9,25 @@
 <script>
 import NavBar from '../components/NavBar.vue';
 import Header from '../components/HomeHeader.vue';
-import Section from '../components/AddSection.vue';
+import Section from '../components/RegisterSection.vue';
 import Footer from '../components/Footer.vue';
 export default {
+    beforeCreate() {
+        //로그인 회원은 빠꾸
+        this.$store.dispatch('getMemberInfo').then(() => {
+                if (this.$store.state.User != null) {
+                    location.href = '#/';
+                }
+            }
+        );
+    },
     components: {
         NavBar,
         Header,
         Section,
         Footer
-    },
-    beforeCreate() {
-        //비로그인 빠꾸
-        this.$store.dispatch('getMemberInfo').then(() => {
-                if (this.$store.state.User == null) {
-                    alert('로그인이 필요합니다.')
-                    location.href = '#/login';
-                }
-            }
-        );
     }
+  
 }
 </script>
 <style scoped>

@@ -6,7 +6,6 @@
                     <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject">
                 </div>
                 <select class="form-select" aria-label="Default select example" name="category" required v-model="category">
-                    <!-- <option selected>카테고리</option> -->
                     <option v-for="(item, index) in categorylist" :key="item"  :value="item.seq">{{item.name}}</option>
                 </select>
                     <div v-for="(item, index) in snapshot" :key="item">
@@ -21,11 +20,11 @@
                             <br>
                             <textarea name="content" v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요." required></textarea>
                         </div>
-                        <button type="button" class="btn btn-secondary" @click="deleteSnapshot(index)">x</button>
+                        <button type="button" class="btn btn-secondary mb-3" @click="deleteSnapshot(index)">x</button>
                     </div>
             </div>
             <div class="add-section">
-                <button class="btn btn-primary btn-more mb-3" @click="addSnapshot" type="button">항목 추가</button>
+                <button class="btn btn-primary btn-more mb-3 mt-3" @click="addSnapshot" type="button">항목 추가</button>
             </div>
         <button class="btn btn-primary" type="submit">등록하기</button>
     </form>
@@ -51,11 +50,6 @@ export default {
                 this.categorylist.push({seq: item.ct_seq, name: item.ct_name});
             });
         });
-    },
-    computed: {
-        countUp: function() {
-            return 'imagePreview' + this.cnt;
-        }
     },
     methods: {
         addSnapshot() {

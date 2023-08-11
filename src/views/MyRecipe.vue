@@ -2,7 +2,13 @@
     <div>
         <NavBar />
         <Header />
-        <Section v-bind:recipes="recipes" />
+        <div v-if="recipes" >
+        <Section :recipes="recipes" />
+        </div>
+        <div v-else class="mt-5 mb-3">
+            <h1>작성한 레시피가 없습니다.</h1>
+            <button class="btn btn-secondary mt-3 mb-3">레시피 등록하러 가기</button>
+        </div>
         <Footer />
     </div>
 </template>
@@ -13,9 +19,6 @@ import Section from '../components/HomeSection.vue';
 import Footer from '../components/Footer.vue';
 import axios from 'axios';
 export default {
-    beforeCreate() {
-        this.$store.dispatch('getMemberInfo');
-    },
     components: {
         NavBar,
         Header,
@@ -24,17 +27,31 @@ export default {
     },    
     data() {
         return {
-            recipes: null
+            recipes: []
         }
     },
-    created() {
-        if (this.$store.state.User == null) {
-            alert('로그인 회원 기능입니다.');
-            location.href = '#/';
-        } else {
-            axios.get('/term/my-recipe',{ params: { writer: this.$store.state.User.id } }).then((response)=>{
-              this.recipes = response.data;
-          });
+    async created() {
+        //비로그인 빠꾸
+        await this.$store.dispatch('getMemberInfo').then(() => {
+                if (this.$store.state.User == null) {
+                    alert('로그인이 필요합니다.')
+                    location.href = '#/login';
+                } else {
+                    this.getRecipe();
+                }
+            }
+        );
+    },
+    methods: {
+        async getRecipe() {
+            await axios.get('/term/my-recipe',{ params: { writer: this.$store.state.User.id } })
+            .then((response)=>{
+                if (response.data.length > 0) {
+                    this.recipes = response.data;
+                } else {
+                    this.recipes = null;
+                }
+            });
         }
     }
 }
