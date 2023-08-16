@@ -1,6 +1,7 @@
 <template>
     <div>
         <NavBar />
+        <form v-on:submit.prevent="loginapi">
         <div class="container-md d-flex flex-column align-items-center mt-5 mb-5">
             <h1 class="h1 text-center fw-bold title">로그인</h1>
             <p class="fs-6 text-center">로그인 후 다양한 서비스를 이용하세요.</p>
@@ -15,10 +16,11 @@
                         placeholder="Password" name="password" v-model="pw"> <label for="floatingPassword">패스워드</label>
                 </div>
                 <div class="container-fluid p-0 mt-3">
-                    <button class="btn w-100 btn-login" @click="loginapi">로그인</button>
+                    <button class="btn w-100 btn-login" type="submit">로그인</button>
                 </div>
             </div>
         </div>
+        </form>
         <Footer />
     </div>
 </template>
@@ -30,7 +32,7 @@ export default {
     beforeCreate() {
         //로그인 회원은 빠꾸
         this.$store.dispatch('getMemberInfo').then(() => {
-                if (this.$store.state.User != null) {
+                if (this.$store.state.Username != null) {
                     location.href = '#/';
                 }
             }
@@ -49,7 +51,7 @@ export default {
     methods: {
         loginapi() {
             //로그인 -> 토큰 반환
-            axios.post('/term/login', null, {params: { id: this.id, pw: this.pw }})
+            axios.post('/term/login', { id: this.id, pw: this.pw })
                 .then((response)=>{
                     //console.log(response.data);
                     if (response.data !== "" && response.data !== null) {
@@ -64,7 +66,8 @@ export default {
                             showConfirmButton: false,
                             timer: 1500
                         }).then(() => {
-                            location.href="#/";
+                            // location.href="#/";
+                            this.$router.push('/');
                         });
                         
                     } else {
@@ -76,6 +79,7 @@ export default {
                             timer: 1500
                         }).then(() => {
                             location.href="#/login";
+                            // this.$router.push('/login');
                         });
                         this.id  = '';
                         this.pw = '';

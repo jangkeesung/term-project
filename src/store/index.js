@@ -3,7 +3,7 @@ import axios from 'axios';
 import createPersistedState from 'vuex-persistedstate';
 export default createStore({
   state: {
-    User: null
+    Username: null
   },
   getters: {
   },
@@ -11,13 +11,13 @@ export default createStore({
 
     loginSuccess(state, userInfo) {
       if (userInfo != '' && userInfo != null) {
-        state.User = userInfo;
+        state.Username = userInfo.id;
         // console.log(state.User.id);
       }
     },
-    loginFail(state) {
-      state.User == null;
-      alert('로그인 실패');
+    loginFail(state , e) {
+      state.Username == null;
+      alert('로그인 오류: '+ e);
     }
 
   },
@@ -34,8 +34,8 @@ export default createStore({
         .then(response => {
           let userInfo = response.data;
           commit("loginSuccess", userInfo);
-        }).catch(()=>{
-          commit('loginFail');
+        }).catch((e)=>{
+          commit('loginFail', e);
         });
       }
     }

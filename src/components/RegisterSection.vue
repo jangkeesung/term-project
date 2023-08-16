@@ -1,12 +1,12 @@
 <template lang="">
-<section class="container-md d-flex justify-content-center p-5">
+    <section class="d-flex justify-content-center black-bg">
 		<div class="d-flex align-content-center justify-content-center w-100 m-5 p-5"> 
 			<div
-				class="col-sm-12 col-md-12 col-lg-5 p-0 bg-white d-flex align-items-center rounded-end pt-4 pb-4 justify-content-center">
-				<div class="container-md d-flex flex-column align-items-center">
-					<h1 class="h2 text-center fw-bold title">개인 회원가입</h1>
-					<p class="fs-6 text-center">회원가입 후 다양한 서비스를 이용하세요.</p>
-					
+				class="col-sm-5 col-md-5 col-lg-5 p-0 bg-white d-flex align-items-center rounded-end pt-4 pb-4 justify-content-center">
+				<div class="container-md d-flex flex-column align-items-center white-bg">
+					<h1 class="h2 text-center fw-bold title">회원가입</h1>
+					<!-- <p class="fs-6 text-center">회원가입 후 다양한 서비스를 이용하세요.</p> -->
+					<div class="quit" @click="$emit('modalClose')">X</div>
 					<form class="w-75" id="formregister" v-on:submit.prevent="submitRegister">
 					
 						<div class="mb-1">아이디</div>
@@ -95,12 +95,12 @@ export default {
         submitRegister() {
 
             if(this.idIsValid && this.pwIsValid && this.pwcIsValid && this.nameIsValid && this.telIsValid) {
-                axios.post('/term/register', null, {params: {
+                axios.post('/term/register', {
                     id: this.id,
                     pw: this.pw,
                     name: this.name,
                     tel: this.tel
-                }})
+                })
                 .then((response)=>{
                     if(response.data == 1) {
                         //스위트알랏으로 성공여부 보여주고 로그인 페이지로 이동
@@ -111,8 +111,22 @@ export default {
                             showConfirmButton: false,
                             timer: 1500
                         }).then(() => {
+                            this.$emit('modalClose');
+                            // location.href="#/login";
+                            this.$router.push('/login');
+                        });
+                    } else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: '회원가입에 실패했습니다.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
                             location.href="#/login";
                         });
+                        this.id  = '';
+                        this.pw = '';
                     }
                 })
                 .catch((e)=>console.error(e));
@@ -211,6 +225,34 @@ export default {
 
 }
 </script>
-<style lang="">
-    
+<style scoped>
+
+body {
+  margin : 0;
+}
+div {
+    box-sizing: border-box;
+}
+.black-bg {
+    width: 100%; height:100%;
+    background: rgba(0,0,0,0.5);
+    position: fixed; padding: 20px;
+    z-index: 999;
+}
+.white-bg {
+    width: 100%; background: white;
+    border-radius: 8px;
+    padding: 20px;  
+}
+.quit {
+    position: relative;
+    right: -230px;
+    top: -45px;
+    border-radius: 5px;
+    background-color: #333;
+    width: 25px;
+    height: 23px;
+    color: white;
+    cursor: pointer;
+}
 </style>

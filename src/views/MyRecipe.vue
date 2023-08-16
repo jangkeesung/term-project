@@ -7,7 +7,7 @@
         </div>
         <div v-else class="mt-5 mb-3">
             <h1>작성한 레시피가 없습니다.</h1>
-            <button class="btn btn-secondary mt-3 mb-3">레시피 등록하러 가기</button>
+            <router-link to="/add-recipe" class="btn btn-secondary mt-3 mb-3">레시피 등록하러 가기</router-link>
         </div>
         <Footer />
     </div>
@@ -33,9 +33,10 @@ export default {
     async created() {
         //비로그인 빠꾸
         await this.$store.dispatch('getMemberInfo').then(() => {
-                if (this.$store.state.User == null) {
+                if (this.$store.state.Username == null) {
                     alert('로그인이 필요합니다.')
-                    location.href = '#/login';
+                    // location.href = '#/login';
+                    this.$router.push('/login');
                 } else {
                     this.getRecipe();
                 }
@@ -44,7 +45,7 @@ export default {
     },
     methods: {
         async getRecipe() {
-            await axios.get('/term/my-recipe',{ params: { writer: this.$store.state.User.id } })
+            await axios.get('/term/my-recipe',{ params: { writer: this.$store.state.Username } })
             .then((response)=>{
                 if (response.data.length > 0) {
                     this.recipes = response.data;

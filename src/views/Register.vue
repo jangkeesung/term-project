@@ -15,8 +15,8 @@ export default {
     beforeCreate() {
         //로그인 회원은 빠꾸
         this.$store.dispatch('getMemberInfo').then(() => {
-                if (this.$store.state.User != null) {
-                    location.href = '#/';
+                if (this.$store.state.Username != null) {
+                    this.$router.push('/');
                 }
             }
         );

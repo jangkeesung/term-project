@@ -21,9 +21,10 @@ export default {
     beforeCreate() {
         //비로그인 빠꾸
         this.$store.dispatch('getMemberInfo').then(() => {
-                if (this.$store.state.User == null) {
+                if (this.$store.state.Username == null) {
                     alert('로그인이 필요합니다.')
-                    location.href = '#/login';
+                    // location.href = '#/login';
+                    this.$router.push('/login');
                 }
             }
         );

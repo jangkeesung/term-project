@@ -23,6 +23,12 @@ const routes = [
     component: () => import('../views/RecipeAdd.vue')
   },
   {
+    path: '/edit-recipe',
+    name: 'edit',
+    component: () => import('../views/RecipeEdit.vue'),
+    props: route => ({ query: route.query.seq })
+  },
+  {
     path: '/my-recipe',
     name: 'my',
     component: () => import('../views/MyRecipe.vue')
