@@ -46,7 +46,7 @@
         </nav>
 </template>
 <script>
-import Register from '../components/RegisterSection.vue';
+import Register from '../components/RegisterModal.vue';
 import Login from '../components/LoginModal.vue';
 export default {
     data() {

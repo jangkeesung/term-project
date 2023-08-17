@@ -30,13 +30,21 @@
         <button class="btn btn-primary" type="submit">레시피 등록하기</button>
     </form>
     </section>
+    <div v-if="isLoading" class="loading-container">
+        <div class="loading">
+            <Fade-loader />
+        </div>
+    </div>
 </template>
 <script>
 import axios from 'axios';
-import $ from 'jquery'; 
+import $ from 'jquery';
+import FadeLoader from 'vue-spinner/src/FadeLoader.vue';
 export default {
+    components: { FadeLoader },
     data() {
         return{
+            isLoading: false, // 로딩 스피너
             snapshot: [{pic: null, content: ''}],
             categorylist: [],
             subject: '',
@@ -79,54 +87,69 @@ export default {
                 reader.readAsDataURL(f);
             })
         },
-        onClickFormButton() {
-            const formData = new FormData();
+         async onClickFormButton() {
 
-            let pic = [];
-            let content = [];
-            let valid = true; // 모든 사항이 충족됐는지 확인
+            if (confirm('레시피를 등록하시겠습니까?')) {
+                this.isLoading = true;
+                const formData = new FormData();
+    
+                let valid = true; // 모든 사항이 충족됐는지 확인
+    
+                if (this.snapshot.length < 1) {
+                    alert('최소 하나 이상의 스냅샷을 작성해주세요.');
+                    return;
+                }
+    
+                this.snapshot.forEach((item, index) => {
+                    if (item.pic == null) {
+                        alert('이미지를 첨부해주세요');
+                        valid = false;
+                        return;
+                    }
+    
+                    formData.append('pic', item.pic);
+                    formData.append('content', item.content);
+                });
+    
+                formData.append('subject', this.subject);
+                formData.append('category', this.category);
+                formData.append('writer', this.$store.state.Username);
+    
+                if (valid) {
+                    await axios.post('/term/add-recipe', formData).then((response) => {
+                        if (response.data.r_seq != null) {
+                            setTimeout(() => {
+                                let seq = response.data.r_seq;
+                                console.log(seq);
+                                this.$router.push({ name: 'recipe', query: { seq } });
+                                // location.href="#/view-recipe?seq=" + seq;
+                            }, 1000);
+                        }
 
-            if (this.snapshot.length < 1) {
-                alert('최소 하나 이상의 스냅샷을 작성해주세요.');
+                    }).catch((e)=>{ console.error('api 요청 에러:', e);});
+                
+                }
+
+            } else {
                 return;
             }
 
-            this.snapshot.forEach((item, index) => {
-                if (item.pic == null) {
-                    alert('이미지를 첨부해주세요');
-                    valid = false;
-                    return;
-                }
+            // Swal.fire({
+            //        title: '레시피를 등록하시겠습니까?',
+            //        text: " ",
+            //        icon: 'warning',
+            //        showCancelButton: true,
+            //        confirmButtonColor: '#3085d6',
+            //        cancelButtonColor: '#d33',
+            //        confirmButtonText: 'Yes'
+            //     }).then((result) => {
+                    
+            //     if (result.isConfirmed) {
+                    
+    
+            //     }
 
-                formData.append('pic', item.pic);
-                formData.append('content', item.content);
-            });
-
-            formData.append('subject', this.subject);
-            formData.append('category', this.category);
-            formData.append('writer', this.$store.state.Username);
-
-            if (valid) {
-                try {
-                    axios.post('/term/add-recipe', formData).then((response) => {
-                        // console.log(response);
-                        if(response.data) {
-                            Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: '레시피 등록완료!',
-                            showConfirmButton: false,
-                            timer: 1500
-                            }).then(() => {
-                                // location.href="#/";
-                                this.$router.push('/');
-                            });
-                        }
-                    });
-                } catch (e) {
-                    console.error('api 요청 에러:', e);
-                }
-            }
+            // });
         }
     }
 }
@@ -150,5 +173,13 @@ export default {
 .title-box:focus,
 .title-box {
 	outline-color: #ADB5BD;
+}
+.loading {
+  z-index: 2;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 9999px;
 }
 </style>

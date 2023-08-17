@@ -29,32 +29,9 @@
 						</div>
 						<div class="mb-1">이름</div>
 						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="name" v-model="name" @input="namecheck"
+							<input type="text" class="form-control" id="name" v-model="name" @keyup="namecheck"
 								placeholder="name" name="m_name" required> <label for="floatingPassword">한글 이름</label>
 						</div>
-						<!-- <div class="mb-1">생년월일</div>
-						<div class="form-floating mb-3">
-							<input type="date" class="form-control" id="birth"
-								placeholder="name" name="m_birth" required> <label for="floatingPassword">날짜를
-								골라주세요</label>
-						</div> -->
-						<!-- <div class="mb-1">주소</div>
-						<div class="form-floating btn-group mb-3 w-100">
-							<input type="text" class="form-control" id="sample6_address"
-								placeholder="name" name="m_address" readonly required> 
-								<label for="floatingPassword">주소를 검색해주세요</label>
-							<input type="button" class="btn" value="주소 검색" onclick="sample6_execDaumPostcode();">
-						</div>
-						<div class="mb-1">상세 주소</div>
-						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="address_detail"
-								placeholder="name" name="m_address_detail" required> <label for="floatingPassword">상세 주소를 입력해주세요</label>
-						</div> -->
-						<!-- <div class="mb-1">이메일</div>
-						<div class="form-floating mb-3">
-							<input type="email" class="form-control" id="email"
-								placeholder="tel" name="m_email" required> <label for="floatingPassword">user@ham.com</label>
-						</div> -->
 						<div class="mb-1">연락처</div>
 						<div class="form-floating">
 							<input type="text" class="form-control" id="tel"
@@ -134,7 +111,7 @@ export default {
 
         },
         idcheck() {
-            console.log(this.id);
+            // console.log(this.id);
             var idInput = document.getElementById('userid');
             var idPattern = /^(?=.*[a-zA-Z])[a-zA-Z0-9]{4,15}$/;
             this.idIsValid = idPattern.test(this.id);
@@ -142,8 +119,8 @@ export default {
             axios.get('/term/idcheck', {params: {id: this.id}})
             .then((result)=>{
 
-                console.log(result.data);
-                console.log(this.idIsValid);
+                // console.log(result.data);
+                // console.log(this.idIsValid);
 			    		  
                 if (this.idIsValid && result.data == 0) {
                     $('#userid + label').text('사용할 수 있는 아이디입니다.');
