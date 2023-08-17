@@ -50,50 +50,22 @@ export default {
         };
     },
     methods: {
-        async deleteRecipe() {  
+        deleteRecipe() {
 
             if (confirm('정말 삭제하시겠습니까? (삭제된 글은 복구되지 않습니다.)')) {
                 this.isLoading = true;
-                       await axios.delete('/term/delete-recipe',{ params: {r_seq: this.dto.r_seq}})
-                       .then((response)=>{
-                           if(response.data > 0) {
-                            setTimeout(() => {
-                                // this.$router.push('/');
-                                console.log('delete');
-                                window.location.href="#/";
-                            }, 1000);
-
-                            // Swal.fire({
-                            //     position: 'center',
-                            //     icon: 'success',
-                            //     title: '레시피가 삭제되었습니다.',
-                            //     showConfirmButton: false,
-                            //     timer: 1000
-                            // }).then(() => {
-                            //     this.$nextTick(() => {
-                            //         this.$router.push('/');
-                            //     });
-                            // });
-                        }
-                    }).catch((e)=>console.log(e));
+                axios.delete('/term/delete-recipe',{ params: {r_seq: this.dto.r_seq}})
+                .then((response)=>{
+                    // console.log(response);
+                    if(response.data > 0) {
+                        setTimeout(() => {
+                            this.$router.push('/');
+                            // console.log('delete');
+                        }, 1000);
+                    }
+                }).catch((error)=>console.log(error));
+                
             }
-
-            // sweetalert 사용시 페이지 전환 에러가 나는 것 같아 사용 보류
-            // Swal.fire({
-            //        title: '정말 삭제 하시겠습니까? \r\n (삭제된 글은 복구되지 않습니다.)',
-            //        text: " ",
-            //        icon: 'warning',
-            //        showCancelButton: true,
-            //        confirmButtonColor: '#3085d6',
-            //        cancelButtonColor: '#d33',
-            //        confirmButtonText: 'Yes'
-            //      }).then((result) => {
-                     
-            //          if (result.isConfirmed) {
-
-                    
-            //     }
-            // });
         },
         editRecipe() {
             let seq = this.dto.r_seq;

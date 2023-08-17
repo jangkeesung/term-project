@@ -130,7 +130,7 @@ export default {
                 reader.readAsDataURL(f);
             })
         },
-         async onClickFormButton() {
+        async onClickFormButton() {
 
             if(confirm('레시피를 수정하시겠습니까?')) {
                 this.isLoading = true;
@@ -172,15 +172,12 @@ export default {
                 if (valid) {
                     
                     await axios.patch('/term/edit-recipe', formData).then((response) => {
-                        if(response.data) {
-
-                            setTimeout(() => {
-                                let seq = this.dto.r_seq;    
-                                this.$router.push({ name: 'recipe', query: { seq } });
-                                // location.href="#/view-recipe?seq=" + seq;
-                            }, 1000);
-
-                        }
+                        // console.log(response);
+                        setTimeout(() => {
+                            let seq = this.dto.r_seq;    
+                            this.$router.push({ name: 'recipe', query: { seq } });
+                            // location.href="#/view-recipe?seq=" + seq;
+                        }, 1000);
                     }).catch((e)=>{console.error('api 요청 에러:', e);});
                     
                 }

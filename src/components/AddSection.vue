@@ -116,16 +116,14 @@ export default {
                 formData.append('writer', this.$store.state.Username);
     
                 if (valid) {
-                    await axios.post('/term/add-recipe', formData).then((response) => {
-                        if (response.data.r_seq != null) {
-                            setTimeout(() => {
-                                let seq = response.data.r_seq;
-                                console.log(seq);
-                                this.$router.push({ name: 'recipe', query: { seq } });
-                                // location.href="#/view-recipe?seq=" + seq;
-                            }, 1000);
-                        }
 
+                    await axios.post('/term/add-recipe', formData).then((response) => {
+                        // console.log(response);
+                        setTimeout(() => {
+                            let seq = response.data.r_seq;
+                            this.$router.push({ name: 'recipe', query: { seq } });
+                            // location.href="#/view-recipe?seq=" + seq;
+                        }, 1000);
                     }).catch((e)=>{ console.error('api 요청 에러:', e);});
                 
                 }
