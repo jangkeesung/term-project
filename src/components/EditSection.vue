@@ -16,7 +16,7 @@
                                 </div>
                                 <input style="display:none;" 
                                 :id="'customFile' + index" type="file" 
-                                @change="readInputFile($event, index, item.s_seq)" name="pic" accept="image/*"/>
+                                @change="readInputFile($event, index, item.s_seq)" name="pic" accept=".gif, .jpg, .png, jpeg"/>
                                 <label :for="'customFile' + index" class="btn btn-secondary mt-2 btn-add-pic">사진수정</label>
                             </div>
                             <br>
@@ -114,7 +114,8 @@ export default {
             var fileArr = Array.prototype.slice.call(files);
             // console.log(fileArr);
             fileArr.forEach(function(f){
-                if(!f.type.match("image/.*")){
+                if(!f.type.match("image/jpeg|image/jpg|image/png|image/gif")){
+                    $('#customFile'+index).val("");
                     alert("이미지 확장자만 업로드 가능합니다.");
                     return;
                 };

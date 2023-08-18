@@ -15,7 +15,7 @@
                                 <div :id="'imagePreview' + index" class="px-5"></div>
                                 <input style="display:none;" 
                                 :id="'customFile' + index" type="file" 
-                                @change="readInputFile($event, index)" name="pic"/>
+                                @change="readInputFile($event, index)" name="pic" accept=".gif, .jpg, .png, jpeg"/>
                                 <label :for="'customFile' + index" class="btn btn-secondary mt-2 btn-add-pic">사진등록</label>
                             </div>
                             <br>
@@ -73,7 +73,8 @@ export default {
             var fileArr = Array.prototype.slice.call(files);
             // console.log(fileArr);
             fileArr.forEach(function(f){
-                if(!f.type.match("image/.*")){
+                if(!f.type.match("image/jpeg|image/jpg|image/png|image/gif")){
+                    $('#customFile'+index).val("");
                     alert("이미지 확장자만 업로드 가능합니다.");
                     return;
                 };
@@ -117,7 +118,7 @@ export default {
     
                 if (valid) {
 
-                    await axios.post('/term/add-recipe', formData).then((response) => {
+                    await axios.post('/term/add-recipe', formData, {maxRedirects: 0}).then((response) => {
                         // console.log(response);
                         setTimeout(() => {
                             let seq = response.data.r_seq;
@@ -132,22 +133,6 @@ export default {
                 return;
             }
 
-            // Swal.fire({
-            //        title: '레시피를 등록하시겠습니까?',
-            //        text: " ",
-            //        icon: 'warning',
-            //        showCancelButton: true,
-            //        confirmButtonColor: '#3085d6',
-            //        cancelButtonColor: '#d33',
-            //        confirmButtonText: 'Yes'
-            //     }).then((result) => {
-                    
-            //     if (result.isConfirmed) {
-                    
-    
-            //     }
-
-            // });
         }
     }
 }

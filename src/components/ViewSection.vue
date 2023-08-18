@@ -54,7 +54,7 @@ export default {
 
             if (confirm('정말 삭제하시겠습니까? (삭제된 글은 복구되지 않습니다.)')) {
                 this.isLoading = true;
-                axios.delete('/term/delete-recipe',{ params: {r_seq: this.dto.r_seq}})
+                axios.delete('/term/delete-recipe',{ params: {r_seq: this.dto.r_seq}, maxRedirects: 0})
                 .then((response)=>{
                     // console.log(response);
                     if(response.data > 0) {
@@ -64,7 +64,6 @@ export default {
                         }, 1000);
                     }
                 }).catch((error)=>console.log(error));
-                
             }
         },
         editRecipe() {
