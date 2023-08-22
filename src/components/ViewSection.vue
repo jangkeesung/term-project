@@ -12,7 +12,7 @@
             <div class="container px-4 px-lg-5 my-5" v-for="(snapshot, index) in dto.snapshotlist" key="snapshot">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0 s-img" 
-                        v-bind:src="require('@/assets/img/'+snapshot.s_pic)" 
+                        v-bind:src="require('@/assets/img/snapshot/'+snapshot.s_pic)" 
                         alt="..." /></div>
                     <div class="col-md-6">
                         <div class="small mb-1">Snapshot no.{{index + 1}}</div>

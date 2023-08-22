@@ -3,7 +3,9 @@ import axios from 'axios';
 import createPersistedState from 'vuex-persistedstate';
 export default createStore({
   state: {
-    Username: null
+    Username: null,
+    bannerImg: '',
+    bannerText: ''
   },
   getters: {
   },
@@ -18,6 +20,11 @@ export default createStore({
     loginFail(state , e) {
       state.Username == null;
       alert('로그인 오류: '+ e);
+    },
+
+    setBanner(state, banner) {
+      state.bannerImg = banner.b_pic;
+      state.bannerText = banner.b_content;
     }
 
   },
@@ -38,6 +45,14 @@ export default createStore({
           commit('loginFail', e);
         });
       }
+    },
+    async getBanner({commit}) {
+      await axios.get('/term/get-banner')
+      .then((response)=>{
+        let banner = response.data
+        commit('setBanner', banner);
+      })
+      .catch( e => console.error(e) );
     }
 
   },

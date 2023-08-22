@@ -93,7 +93,7 @@ export default {
         readSnapshot() {
             this.snapshot.forEach((item, index)=>{
                 var html = 
-                `<img src="${require('@/assets/img/' + item.opic)}" style="width:100%;"/>`;
+                `<img src="${require('@/assets/img/snapshot/' + item.opic)}" style="width:100%;"/>`;
                 $('#imagePreview' + index).html(html);
             });
         },
