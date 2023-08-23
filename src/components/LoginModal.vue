@@ -2,10 +2,10 @@
     <div class="black-bg d-flex justify-content-center">
             <form v-on:submit.prevent="loginapi">
                 <div class="d-flex flex-column align-items-center mt-5 mb-5 white-bg">
-                    <h1 class="h1 text-center fw-bold title">로그인</h1>
                     <div class="quit" @click="$emit('modalClose')">X</div>
+                    <h1 class="h1 text-center fw-bold title">로그인</h1>
                     <p class="fs-6 text-center">로그인 후 다양한 서비스를 이용하세요.</p>
-                    <div>
+                    <div class="col-10">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="floatingInput"
                             placeholder="u=UserId" name="username" v-model="id"> <label
@@ -16,9 +16,9 @@
                             placeholder="Password" name="password" v-model="pw"> <label for="floatingPassword">패스워드</label>
                         </div>
                         <div class="container-fluid p-0 mt-3">
-                    <button class="btn w-100 btn-login btn-primary" type="submit">로그인</button>
-                </div>
-            </div>
+                            <button class="btn w-100 btn-primary" type="submit">로그인</button>
+                        </div>
+                    </div>
         </div>
         </form>
     </div>
@@ -83,14 +83,15 @@ div {
     z-index: 999;
 }
 .white-bg {
-    min-width: 400px; background: white;
+    min-width: 370px; 
+    background: white;
     border-radius: 8px;
     padding: 20px;
 }
 .quit {
     position: relative;
-    right: -170px;
-    top: -60px;
+    /* right: -165px; */
+    right: -50%;
     border-radius: 5px;
     background-color: #333;
     width: 25px;

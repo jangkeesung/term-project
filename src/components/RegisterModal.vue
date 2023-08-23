@@ -1,14 +1,13 @@
 <template lang="">
-    <section class="d-flex justify-content-center black-bg">
-		<div class="d-flex align-content-center justify-content-center w-100 m-5 p-5"> 
-			<div
-				class="col-sm-5 col-md-5 col-lg-5 p-0 bg-white d-flex align-items-center rounded-end pt-4 pb-4 justify-content-center">
-				<div class="container-md d-flex flex-column align-items-center white-bg">
-					<h1 class="h2 text-center fw-bold title">회원가입</h1>
-					<!-- <p class="fs-6 text-center">회원가입 후 다양한 서비스를 이용하세요.</p> -->
+    <div class="black-bg d-flex justify-content-center">
+        <form v-on:submit.prevent="submitRegister">
+		<!-- <div class="d-flex align-content-center justify-content-center w-100 m-5 p-5">  -->
+			<!-- <div class="col-sm-5 col-md-5 col-lg-5 p-0 bg-white d-flex align-items-center rounded-end pt-4 pb-4 justify-content-center"> -->
+				<div class="d-flex flex-column align-items-center mt-5 mb-5 white-bg">
 					<div class="quit" @click="$emit('modalClose')">X</div>
-					<form class="w-75" id="formregister" v-on:submit.prevent="submitRegister">
-					
+					<h1 class="h1 text-center fw-bold title">회원 가입</h1>
+					<p class="fs-6 text-center">회원가입 후 다양한 서비스를 이용하세요.</p>
+					<div class="col-10">
 						<div class="mb-1">아이디</div>
 						<div class="form-floating mb-3">
 							<input type="text" class="form-control" id="userid" v-model="id" @input="idcheck"
@@ -39,15 +38,12 @@
 								없이 입력해주세요</label>
 						</div>
 						<div class="container-fluid p-0 mt-3">
-							<button type="submit" class="btn w-100 btn-primary" id="btnregister">회원가입</button>
+							<button class="btn w-100 btn-primary" type="submit">회원가입</button>
 						</div>
-					</form>
-					
-				</div>
-			</div>
-
-		</div>
-	</section>
+					</div>		
+                </div>
+            </form>
+	</div>
 </template>
 <script>
 import $ from 'jquery';
@@ -217,14 +213,20 @@ div {
     z-index: 999;
 }
 .white-bg {
-    width: 100%; background: white;
+    min-width: 370px;
+    background: white;
+    height: 90%;
     border-radius: 8px;
-    padding: 20px;  
+    padding: 20px; 
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.white-bg::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
 .quit {
     position: relative;
-    right: -230px;
-    top: -45px;
+    right: -50%;
     border-radius: 5px;
     background-color: #333;
     width: 25px;

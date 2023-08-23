@@ -104,8 +104,8 @@ font-style: normal;
         justify-content: center;
     }
 .del {
-    bottom: 170px;
-    right: 50px;
+    bottom: 25%;
+    right: 3%;
     position: fixed;
     width: 50px;
     height: 50px;
@@ -119,8 +119,8 @@ font-style: normal;
 }
 
 .edit {
-    bottom: 230px;
-    right: 50px;
+    bottom: 33%;
+    right: 3%;
     position: fixed;
     width: 50px;
     height: 50px;

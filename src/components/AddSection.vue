@@ -10,22 +10,24 @@
                     <option v-for="(item, index) in categorylist" :key="item"  :value="item.seq">{{item.name}}</option>
                 </select>
                     <div v-for="(item, index) in snapshot" :key="item">
-                        <div class="d-flex mt-5 mb-5 snapshot">
+                        <div class="row mt-5 mb-5 snapshot align-items-center">
                             <div class="custom-file col-md-6">
                                 <div :id="'imagePreview' + index" class="px-5"></div>
                                 <input style="display:none;" 
                                 :id="'customFile' + index" type="file" 
                                 @change="readInputFile($event, index)" name="pic" accept=".gif, .jpg, .png, jpeg"/>
-                                <label :for="'customFile' + index" class="btn btn-secondary mt-2 btn-add-pic">사진등록</label>
+                                <label :for="'customFile' + index" class="btn btn-info mt-2 btn-add-pic mb-2">사진 등록</label>
                             </div>
                             <br>
-                            <textarea name="content" v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요." required></textarea>
+                            <div class="col-md-6">
+                                <textarea name="content" v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요." required></textarea>
+                            </div>
                         </div>
-                        <button type="button" class="btn btn-secondary mb-3" @click="deleteSnapshot(index)">x</button>
+                        <button type="button" class="btn btn-danger mb-3" @click="deleteSnapshot(index)">스냅샷 삭제</button>
                     </div>
             </div>
             <div class="add-section">
-                <button class="btn btn-primary btn-more mb-3 mt-3" @click="addSnapshot" type="button">스냅샷 추가</button>
+                <button class="btn btn-success btn-more mb-3 mt-3" @click="addSnapshot" type="button">스냅샷 추가</button>
             </div>
         <button class="btn btn-primary" type="submit">레시피 등록하기</button>
     </form>
@@ -53,7 +55,8 @@ export default {
         };
     },
     created() {
-        axios.get("/term/get-category").then((response)=>{
+        axios.get("/term/get-category")
+        .then((response)=>{
             response.data.forEach((item, index)=>{
                 this.categorylist.push({seq: item.ct_seq, name: item.ct_name});
             });
@@ -118,7 +121,8 @@ export default {
     
                 if (valid) {
 
-                    await axios.post('/term/add-recipe', formData, {maxRedirects: 0}).then((response) => {
+                    await axios.post('/term/add-recipe', formData, {maxRedirects: 0})
+                    .then((response) => {
                         // console.log(response);
                         setTimeout(() => {
                             let seq = response.data.r_seq;
@@ -164,5 +168,9 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 9999px;
+}
+#exampleFormControlTextarea1 {
+    min-height: 340px;
+    resize: none;
 }
 </style>

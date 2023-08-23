@@ -20,8 +20,8 @@ export default {
 </script>
 <style scoped>
     .ub {
-        bottom: 110px;
-	    right: 50px;
+        bottom: 17%;
+	    right: 3%;
         position: fixed;
         width: 50px;
         height: 50px;
@@ -34,8 +34,8 @@ export default {
         color: black;
         }
     .bk {
-        bottom: 50px;
-	    right: 50px;
+        bottom: 9%;
+	    right: 3%;
         position: fixed;
         width: 50px;
         height: 50px;

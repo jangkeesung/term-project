@@ -5,7 +5,7 @@
         <div class="container-md d-flex flex-column align-items-center mt-5 mb-5">
             <h1 class="h1 text-center fw-bold title">로그인</h1>
             <p class="fs-6 text-center">로그인 후 다양한 서비스를 이용하세요.</p>
-            <div>
+            <div class="col-sm-10 col-md-4">
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingInput"
                         placeholder="u=UserId" name="username" v-model="id"> <label
