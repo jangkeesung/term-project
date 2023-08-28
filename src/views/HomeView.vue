@@ -2,6 +2,7 @@
     <div>
         <NavBar />
         <Header />
+        <Section v-bind:recipes="monthlyRecipes"/>
         <Section v-bind:recipes="recipes"/>
         <Footer />
         <div v-if="isLoading" class="loading-container">
@@ -33,15 +34,17 @@ export default {
         return {
             isLoading: false, // 로딩 스피너
             recipes: null,
+            monthlyRecipes: null,
             page: 1
         }
     },
-    async created() {
-        await this.getRecipe();
+    created() {
+        this.getRecipe();
+        this.getMonthlyRecipe();
         window.addEventListener('scroll', () => {
             let val = window.innerHeight + window.scrollY;
 
-            if(val >= document.body.offsetHeight - 1){
+            if(val >= document.body.offsetHeight && !this.isLoading){
                 this.isLoading = true;
                 this.getRecipe().then(()=>{
                     this.isLoading = false;
@@ -54,10 +57,15 @@ export default {
             await axios.get('/term/recipelist', {params: {page: this.page}})
             .then((response)=>{
                 this.recipes = response.data;
-                console.log('가져옴');
                 this.page++;
             });
-        }
+        },
+        async getMonthlyRecipe() {
+            await axios.get('/term/getMonthly')
+            .then((response)=>{
+                this.monthlyRecipes = response.data;
+            });
+        },
     }
 }
 </script>

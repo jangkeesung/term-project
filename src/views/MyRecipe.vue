@@ -55,7 +55,7 @@ export default {
         window.addEventListener('scroll', () => {
             let val = window.innerHeight + window.scrollY;
 
-            if(val >= document.body.offsetHeight - 1){
+            if(val >= document.body.offsetHeight && !this.isLoading){
                 this.isLoading = true;
                 this.getRecipe().then(()=>{
                     this.isLoading = false;
