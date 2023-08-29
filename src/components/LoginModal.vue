@@ -8,12 +8,13 @@
                     <div class="col-10">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="floatingInput"
-                            placeholder="u=UserId" name="username" v-model="id"> <label
-                            for="floatingInput">아이디</label>
+                            placeholder="u=UserId" name="username" v-model="id" required> 
+                            <label for="floatingInput">아이디</label>
                         </div>
                         <div class="form-floating">
                             <input type="password" class="form-control" id="floatingPassword"
-                            placeholder="Password" name="password" v-model="pw"> <label for="floatingPassword">패스워드</label>
+                            placeholder="Password" name="password" v-model="pw" required> 
+                            <label for="floatingPassword">패스워드</label>
                         </div>
                         <div class="container-fluid p-0 mt-3">
                             <button class="btn w-100 btn-primary" type="submit">로그인</button>

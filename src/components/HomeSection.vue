@@ -2,8 +2,9 @@
         <!-- Section-->
         <section class="py-5" v-if="recipes">
             <div class="container px-4 px-lg-5 mt-5">
-                <h1 class="pb-5 all-h1">&lt; 모든 레시피 &gt;</h1>
-                <div class="navbar navbar-light bg-light mb-2">
+                <h1 class="pb-5 all-h1" v-if="my === undefined">&lt; 모든 레시피 &gt;</h1>
+                <h1 class="pb-5 all-h1" v-if="my">&lt; 내 레시피 &gt;</h1>
+                <div class="navbar navbar-light bg-light mb-2" v-if="my === undefined">
                     <div class="container-fluid">
                         <a class="navbar-brand">레시피 검색</a>
                         <form class="d-flex" v-on:submit.prevent="search">
@@ -17,8 +18,8 @@
                         </form>
                     </div>
                 </div>
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    <div class="col mb-5" v-if="recipes.length > 0" v-for="(recipe, index) in recipes" key="recipe">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" v-if="recipes.length > 0">
+                    <div class="col mb-5" v-for="(recipe, index) in recipes" key="recipe">
                         <div class="card h-100 card-recipe" @click="this.linkView(recipe.r_seq)">
                             <!-- Product image require('@/assets/img/'+recipe.snapshotlist[0].s_pic) -->
                             <img class="card-img-top img-list" v-bind:src="require('@/assets/img/snapshot/'+recipe.r_pic)" alt="..." />
@@ -34,14 +35,13 @@
                             </div>
                         </div>
                     </div>
-                    <div v-else>조회된 레시피가 존재하지 않습니다.</div>
                 </div>
             </div>
         </section>
 </template>
 <script>
 export default {
-    props: ['recipes', 'p_col', 'p_word'],
+    props: ['recipes', 'p_col', 'p_word', 'my'],
     methods: {
         linkView(seq) {
             // this.$store.state.r_seq = recipe.r_seq;

@@ -17,6 +17,7 @@
                         </form>
                     </div>
                 </div>
+                <h5 class="my-4" v-if="p_word != '' && recipes.length > 0"> '{{p_word}}'(으)로 검색한 결과</h5>
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" v-if="recipes.length > 0">
                     <div class="col mb-5" v-for="(recipe, index) in recipes" key="recipe">
                         <div class="card h-100 card-recipe" @click="this.linkView(recipe.r_seq)">
@@ -35,7 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <h3 class="mt-5" v-else>'{{ p_word }}' 조회된 검색 결과가 없습니다.</h3>
+                <h3 class="mt-5" v-else>'{{ p_word }}'(으)로 조회된 검색 결과가 없습니다.</h3>
             </div>
         </section>
 </template>

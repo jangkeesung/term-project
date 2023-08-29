@@ -50,9 +50,11 @@ export default {
 
             if(val > document.body.offsetHeight - 1 && !this.isLoading){
                 this.isLoading = true;
-                this.getRecipe().then(()=>{
-                    this.isLoading = false;
-                });
+                setTimeout(()=>{
+                    this.getRecipe().then(()=>{
+                        this.isLoading = false;
+                    });
+                }, 500)
             }
         });
     },

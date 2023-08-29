@@ -3,7 +3,7 @@
         <NavBar />
         <Header />
         <div v-if="recipes" >
-        <Section :recipes="recipes" />
+        <Section :recipes="recipes" :my="my"/>
         </div>
         <div v-else class="mt-5 mb-3">
             <h1>작성한 레시피가 없습니다.</h1>
@@ -36,7 +36,8 @@ export default {
         return {
             isLoading: false,
             recipes: [],
-            page: 1
+            page: 1,
+            my: true
         }
     },
     async created() {
@@ -57,9 +58,11 @@ export default {
 
             if(val > document.body.offsetHeight - 1 && !this.isLoading){
                 this.isLoading = true;
-                this.getRecipe().then(()=>{
-                    this.isLoading = false;
-                });
+                setTimeout(()=>{
+                    this.getRecipe().then(()=>{
+                        this.isLoading = false;
+                    });
+                }, 500);
             }
         });
 
