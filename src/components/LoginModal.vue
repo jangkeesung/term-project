@@ -26,6 +26,12 @@
 <script>
 import axios from 'axios';
 export default {
+    data() {
+        return {
+            id: '',
+            pw: ''
+        }
+    },
     methods: {
         loginapi() {
             //로그인 -> 토큰 반환

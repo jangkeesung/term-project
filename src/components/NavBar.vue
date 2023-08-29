@@ -9,10 +9,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4" v-if="$store.state.Username != null">
                         <li class="nav-item">
-                            <router-link to="/my-recipe" class="nav-link active a-myrecipe" aria-current="page">내 레시피</router-link>
+                            <router-link to="/add-recipe" class="nav-link active a-addrecipe" aria-current="page">레시피 등록</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/add-recipe" class="nav-link active a-addrecipe" aria-current="page">레시피 등록</router-link>
+                            <router-link to="/my-recipe" class="nav-link active a-myrecipe" aria-current="page">내 레시피</router-link>
                         </li>
                         <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>

@@ -5,15 +5,17 @@ export default createStore({
   state: {
     Username: null,
     bannerImg: '',
-    bannerText: ''
+    bannerText: '',
+    s_col: 'r_subject',
+    s_word: ''
   },
   getters: {
   },
   mutations: {
 
-    loginSuccess(state, userInfo) {
-      if (userInfo != '' && userInfo != null) {
-        state.Username = userInfo.id;
+    loginSuccess(state, userId) {
+      if (userId != '' && userId != null) {
+        state.Username = userId;
         // console.log(state.User.id);
       }
     },
@@ -21,10 +23,18 @@ export default createStore({
       state.Username == null;
       alert('로그인 오류: '+ e);
     },
+    removeUser(state) {
+      state.Username = null;
+    },
 
     setBanner(state, banner) {
       state.bannerImg = banner.b_pic;
       state.bannerText = banner.b_content;
+    },
+  
+    setColWord(state, item) {
+      state.s_col = item.s_col;
+      state.s_word = item.s_word;
     }
 
   },
@@ -39,8 +49,15 @@ export default createStore({
         }
         await axios.get('/term/login/users', config)
         .then(response => {
-          let userInfo = response.data;
-          commit("loginSuccess", userInfo);
+          // console.log(response.data);
+          if (response.data == 'ExpiredJwt Please Retry Login') {
+            alert('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
+            localStorage.removeItem("access_token");
+            commit("removeUser");
+          } else {
+            let userId = response.data;
+            commit("loginSuccess", userId);
+          }
         }).catch((e)=>{
           commit('loginFail', e);
         });
@@ -53,7 +70,7 @@ export default createStore({
         commit('setBanner', banner);
       })
       .catch( e => console.error(e) );
-    }
+    },
 
   },
   modules: {

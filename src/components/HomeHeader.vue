@@ -40,7 +40,7 @@ export default {
 }
 </script>
 <style scoped>
-    .banner-container {
+.banner-container {
     background-size: cover;
     background-position: center;
 }

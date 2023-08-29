@@ -3,7 +3,7 @@
         <form v-on:submit.prevent="onClickFormButton">
             <div>
                 <div class="mb-3">
-                    <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject">
+                    <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject" autocomplete="off">
                 </div>
                 <select class="form-select" aria-label="Default select example" name="category" required v-model="category">
                     <option disabled value="">카테고리를 선택하세요</option>

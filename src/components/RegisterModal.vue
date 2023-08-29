@@ -11,7 +11,7 @@
 						<div class="mb-1">아이디</div>
 						<div class="form-floating mb-3">
 							<input type="text" class="form-control" id="userid" v-model="id" @input="idcheck"
-								placeholder="name@example.com" name="m_id" required> <label
+								placeholder="name@example.com" name="m_id" required autocomplete="off"> <label
 								for="floatingInput">4~15자(알파벳, 숫자 가능)</label>
 						</div>
 						<div class="mb-1">비밀번호</div>
@@ -29,12 +29,12 @@
 						<div class="mb-1">이름</div>
 						<div class="form-floating mb-3">
 							<input type="text" class="form-control" id="name" v-model="name" @keyup="namecheck"
-								placeholder="name" name="m_name" required> <label for="floatingPassword">한글 이름</label>
+								placeholder="name" name="m_name" autocomplete="off" required> <label for="floatingPassword">한글 이름</label>
 						</div>
 						<div class="mb-1">연락처</div>
 						<div class="form-floating">
 							<input type="text" class="form-control" id="tel"
-								placeholder="tel" name="m_tel" required v-model="tel" @input="telcheck"> <label for="floatingPassword">"-"
+								placeholder="tel" name="m_tel" required v-model="tel" @input="telcheck" autocomplete="off"> <label for="floatingPassword">"-"
 								없이 입력해주세요</label>
 						</div>
 						<div class="container-fluid p-0 mt-3">
@@ -85,7 +85,6 @@ export default {
                             timer: 1500
                         }).then(() => {
                             this.$emit('modalClose');
-                            // location.href="#/login";
                             this.$router.push('/login');
                         });
                     } else {
@@ -96,10 +95,12 @@ export default {
                             showConfirmButton: false,
                             timer: 1500
                         }).then(() => {
-                            location.href="#/login";
+                            this.$emit('modalClose');
+                            this.id  = '';
+                            this.pw = '';
+                            this.name = '';
+                            this.tel = '';
                         });
-                        this.id  = '';
-                        this.pw = '';
                     }
                 })
                 .catch((e)=>console.error(e));

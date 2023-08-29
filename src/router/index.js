@@ -32,6 +32,12 @@ const routes = [
     path: '/my-recipe',
     name: 'my',
     component: () => import('../views/MyRecipe.vue')
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import('../views/SearchList.vue'),
+    props: route => ({ s_col: route.query.s_col, s_word: route.query.s_word })
   }
 
 ]

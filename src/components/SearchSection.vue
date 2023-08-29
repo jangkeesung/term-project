@@ -1,8 +1,8 @@
 <template lang="">
         <!-- Section-->
         <section class="py-5" v-if="recipes">
-            <div class="container px-4 px-lg-5 mt-5">
-                <h1 class="pb-5 all-h1">&lt; 모든 레시피 &gt;</h1>
+            <div class="container px-4 px-lg-5 mt-2">
+                <h1 class="pb-5 all-h1">&lt; 레시피 검색 &gt;</h1>
                 <div class="navbar navbar-light bg-light mb-2">
                     <div class="container-fluid">
                         <a class="navbar-brand">레시피 검색</a>
@@ -12,13 +12,13 @@
                                 <option value="r_subject">제목</option>
                                 <option value="r_writer">글쓴이</option>
                             </select>
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" v-model="s_word" required>
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" v-model="s_word" required ref="input">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>
                 </div>
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    <div class="col mb-5" v-if="recipes.length > 0" v-for="(recipe, index) in recipes" key="recipe">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" v-if="recipes.length > 0">
+                    <div class="col mb-5" v-for="(recipe, index) in recipes" key="recipe">
                         <div class="card h-100 card-recipe" @click="this.linkView(recipe.r_seq)">
                             <!-- Product image require('@/assets/img/'+recipe.snapshotlist[0].s_pic) -->
                             <img class="card-img-top img-list" v-bind:src="require('@/assets/img/snapshot/'+recipe.r_pic)" alt="..." />
@@ -34,8 +34,8 @@
                             </div>
                         </div>
                     </div>
-                    <div v-else>조회된 레시피가 존재하지 않습니다.</div>
                 </div>
+                <h3 class="mt-5" v-else>'{{ p_word }}' 조회된 검색 결과가 없습니다.</h3>
             </div>
         </section>
 </template>
@@ -48,9 +48,9 @@ export default {
             this.$router.push({name: 'recipe', query: { seq }});
         },
         search() {
-            // this.$router.push({name: 'search', query: { s_col: this.s_col, s_word: this.s_word }});
-            this.$store.commit('setColWord', {s_col:this.s_col, s_word:this.s_word});
-            this.$router.push('/search');
+            // console.log(this.s_col, this.s_word);
+            this.$emit('gosearch', this.s_col, this.s_word);
+            this.$refs.input.blur();
         }
     },
     data() {
