@@ -50,13 +50,16 @@ export default createStore({
         await axios.get('/term/login/users', config)
         .then(response => {
           // console.log(response.data);
-          if (response.data == 'ExpiredJwt Please Retry Login') {
+          if (response.data.id == 'ExpiredJwt Please Retry Login') {
             alert('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
             localStorage.removeItem("access_token");
             commit("removeUser");
           } else {
-            let userId = response.data;
+            let userId = response.data.id;
             commit("loginSuccess", userId);
+            //새로 받은 토큰으로 덮어 씌우기
+            let token = response.data.token;
+            localStorage.setItem('access_token', token);
           }
         }).catch((e)=>{
           commit('loginFail', e);

@@ -129,12 +129,12 @@ export default {
                             this.$router.push({ name: 'recipe', query: { seq } });
                             // location.href="#/view-recipe?seq=" + seq;
                         }, 1000);
-                    }).catch((e)=>{ console.error('api 요청 에러:', e);});
+                    }).catch((e)=>{ console.error('게시글 등록 실패 api 요청 에러:', e);});
                 
                 }
 
             } else {
-                return;
+                return false;
             }
 
         }

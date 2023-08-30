@@ -10,14 +10,14 @@
                             <select class="form-select me-2 w-50" aria-label="Default select example" v-model="s_col" required>
                                 <option value="" disabled>검색 분류</option>
                                 <option value="r_subject">제목</option>
-                                <option value="r_writer">글쓴이</option>
+                                <option value="r_writer">작성자</option>
                             </select>
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" v-model="s_word" required ref="input">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>
                 </div>
-                <h5 class="my-4" v-if="p_word != '' && recipes.length > 0"> '{{p_word}}'(으)로 검색한 결과</h5>
+                <h5 class="my-4" v-if="p_word != '' && recipes.length > 0"> {{v_col}}: '{{p_word}}'(으)로 검색한 결과</h5>
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" v-if="recipes.length > 0">
                     <div class="col mb-5" v-for="(recipe, index) in recipes" key="recipe">
                         <div class="card h-100 card-recipe" @click="this.linkView(recipe.r_seq)">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <h3 class="mt-5" v-else>'{{ p_word }}'(으)로 조회된 검색 결과가 없습니다.</h3>
+                <h3 class="mt-5" v-else>{{v_col}}: '{{ p_word }}'(으)로 조회된 검색 결과가 없습니다.</h3>
             </div>
         </section>
 </template>
@@ -54,9 +54,21 @@ export default {
             this.$refs.input.blur();
         }
     },
+    computed: {
+        v_col() {
+            switch(this.p_col) {
+                case 'r_subject':
+                    return '제목';
+                case 'r_writer':
+                    return '작성자';
+                default:
+                    return '';
+            }
+        }
+    },
     data() {
         return {
-            s_col:"",
+            s_col:"r_subject",
             s_word:""
         }
     },

@@ -14,6 +14,7 @@ import Section from '../components/EditSection.vue';
 import Footer from '../components/Footer.vue';
 import UB from '../components/UpButton.vue'
 import axios from 'axios';
+import router from '@/router';
 export default {
     components: {
         NavBar,

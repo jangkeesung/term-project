@@ -11,7 +11,7 @@
                             <select class="form-select me-2 w-50" aria-label="Default select example" v-model="s_col" required>
                                 <option value="" disabled>검색 분류</option>
                                 <option value="r_subject">제목</option>
-                                <option value="r_writer">글쓴이</option>
+                                <option value="r_writer">작성자</option>
                             </select>
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" v-model="s_word" required>
                             <button class="btn btn-outline-success" type="submit">Search</button>
@@ -55,7 +55,7 @@ export default {
     },
     data() {
         return {
-            s_col:"",
+            s_col:"r_subject",
             s_word:""
         }
     },

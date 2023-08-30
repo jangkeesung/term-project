@@ -49,6 +49,9 @@
 import Register from '../components/RegisterModal.vue';
 import Login from '../components/LoginModal.vue';
 export default {
+    // beforeCreate() {
+    //     this.$store.dispatch('getMemberInfo');
+    // },
     data() {
         return {
             registerModal: false,

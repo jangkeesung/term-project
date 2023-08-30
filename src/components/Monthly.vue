@@ -3,8 +3,8 @@
     <div class="monthly" v-if="recipes">
         <div class="container px-4 px-lg-5">
             <h1 class="py-5 mon-h1">&lt; 이달의 레시피 &gt;</h1>
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <div class="col mb-5 card-parent" v-if="recipes.length > 0" v-for="(recipe, index) in recipes" key="recipe">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" v-if="recipes.length > 0">
+                <div class="col mb-5 card-parent" v-for="(recipe, index) in recipes" key="recipe">
                     <div class="card h-100 card-recipe" @click="this.linkView(recipe.r_seq)">
                         <!-- Product image require('@/assets/img/'+recipe.snapshotlist[0].s_pic) -->
                         <img class="card-img-top img-list" v-bind:src="require('@/assets/img/snapshot/'+recipe.r_pic)" alt="..." />
@@ -20,9 +20,8 @@
                         </div>
                     </div>
                 </div>
-                <h2 v-else>이달의 레시피가 없습니다.</h2>
-
             </div>
+            <h2 v-else>아직 이달의 레시피가 없습니다.<br><br> 당신의 레시피를 등록하세요!<br><br></h2>
         </div>
     </div>
 </template>
