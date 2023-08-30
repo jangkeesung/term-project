@@ -43,25 +43,25 @@ export default {
     created() {
         this.getRecipe();
         this.getMonthlyRecipe();
-        window.addEventListener('scroll', () => {
-            let val = window.innerHeight + window.scrollY;
-
-            if(val > document.body.offsetHeight - 1 && !this.isLoading){
-                this.isLoading = true;
-                setTimeout(()=>{
-                    this.getRecipe().then(()=>{
-                        this.isLoading = false;
-                    });
-                }, 500);
-            }
-        });
+    },
+    mounted() {
+        window.addEventListener('scroll', this.scrollHandler);
+    },
+    beforeUnmount() {
+        window.removeEventListener('scroll', this.scrollHandler);
     },
     methods: {
         async getRecipe() {
             await axios.get('/term/recipelist', {params: {page: this.page}})
             .then((response)=>{
+                let size = 0;
+                if (this.recipes !== null) {
+                    size = this.recipes.length;
+                }
                 this.recipes = response.data;
-                this.page++;
+                if (size < this.recipes.length) {
+                    this.page++;
+                }
             });
         },
         async getMonthlyRecipe() {
@@ -70,6 +70,18 @@ export default {
                 this.monthlyRecipes = response.data;
             });
         },
+        scrollHandler() {
+            let val = window.innerHeight + window.scrollY;
+    
+                if(val > document.body.offsetHeight - 1 && !this.isLoading){
+                    this.isLoading = true;
+                    setTimeout(()=>{
+                        this.getRecipe().then(()=>{
+                            this.isLoading = false;
+                        });
+                    }, 500);
+                }
+        }
     }
 }
 </script>

@@ -3,7 +3,7 @@
         <NavBar />
         <Header />
         <div v-if="recipes" >
-        <Section :recipes="recipes" :my="my"/>
+            <Section :recipes="recipes" :my="my"/>
         </div>
         <div v-else class="mt-5 mb-3">
             <h1>작성한 레시피가 없습니다.</h1>
@@ -35,7 +35,7 @@ export default {
     data() {
         return {
             isLoading: false,
-            recipes: [],
+            recipes: null,
             page: 1,
             my: true
         }
@@ -48,36 +48,46 @@ export default {
                     // location.href = '#/login';
                     this.$router.push('/login');
                 } else {
-                    this.getRecipe();
+                    this.getMyRecipe();
                 }
             }
         );
-
-        window.addEventListener('scroll', () => {
+    },
+    mounted() {
+        window.addEventListener('scroll', this.scrollHandler);
+    },
+    beforeUnmount() {
+        window.removeEventListener('scroll', this.scrollHandler);
+    },
+    methods: {
+        async getMyRecipe() {
+            await axios.get('/term/my-recipe',{ params: { writer: this.$store.state.Username, page: this.page } })
+            .then((response)=>{
+                let size = 0;
+                if (this.recipes !== null) {
+                    size = this.recipes.length;
+                }
+                if (response.data.length > 0) {
+                    this.recipes = response.data;
+                    if (size < this.recipes.length) {
+                        this.page++;
+                    }
+                } else {
+                    this.recipes = null;
+                }
+            });
+        },
+        scrollHandler() {
             let val = window.innerHeight + window.scrollY;
 
             if(val > document.body.offsetHeight - 1 && !this.isLoading){
                 this.isLoading = true;
                 setTimeout(()=>{
-                    this.getRecipe().then(()=>{
+                    this.getMyRecipe().then(()=>{
                         this.isLoading = false;
                     });
                 }, 500);
             }
-        });
-
-    },
-    methods: {
-        async getRecipe() {
-            await axios.get('/term/my-recipe',{ params: { writer: this.$store.state.Username, page: this.page } })
-            .then((response)=>{
-                if (response.data.length > 0) {
-                    this.recipes = response.data;
-                    this.page++;
-                } else {
-                    this.recipes = null;
-                }
-            });
         }
     }
 }

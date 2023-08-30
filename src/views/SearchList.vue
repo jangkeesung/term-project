@@ -41,29 +41,30 @@ export default {
             word: ""
         }
     },
-    created() {
+    async created() {
         this.col = this.$store.state.s_col;
         this.word = this.$store.state.s_word;
-        this.getRecipe();
-        window.addEventListener('scroll', () => {
-            let val = window.innerHeight + window.scrollY;
-
-            if(val > document.body.offsetHeight - 1 && !this.isLoading){
-                this.isLoading = true;
-                setTimeout(()=>{
-                    this.getRecipe().then(()=>{
-                        this.isLoading = false;
-                    });
-                }, 500)
-            }
-        });
+        await this.getRecipe();
+    },
+    mounted() {
+        window.addEventListener('scroll', this.scrollHandler);
+        //사실 첫 페이지는 최대 8개만 가져와야 하는데 처음 렌더링할 때 스크롤이 짧아서 처음부터 스크롤 이벤트가 걸려서 한 줄 더 가져오게 된다. 그래도 문제는 없어서 일단 보류
+    },
+    beforeUnmount() {
+        window.removeEventListener('scroll', this.scrollHandler);
     },
     methods: {
         async getRecipe() {
             await axios.get('/term/search-recipe', {params: {page: this.page, s_col: this.col, s_word: this.word}})
             .then((response)=>{
+                let size = 0;
+                if (this.recipes !== null) {
+                    size = this.recipes.length;
+                }
                 this.recipes = response.data;
-                this.page++;
+                if (size < this.recipes.length) {
+                    this.page++;
+                }
             });
         },
         async handleSearch(ns_col, ns_word) {
@@ -71,6 +72,19 @@ export default {
             this.col = ns_col;
             this.word = ns_word;
             await this.getRecipe();
+        },
+        scrollHandler() {
+            let val = window.innerHeight + window.scrollY;
+
+            if(val > document.body.offsetHeight - 1 && !this.isLoading){
+                this.isLoading = true;
+                setTimeout(()=>{
+                    this.getRecipe().then(()=>{
+                        this.isLoading = false;
+                        console.log('스크롤이벤트 발생');
+                    });
+                }, 500)
+            }
         }
     },
 }

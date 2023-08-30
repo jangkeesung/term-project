@@ -81,11 +81,11 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                location.href="#/";
+                                // location.href="#/";
                                 this.$router.push('/');
                             });
                    } else {
-                    return;
+                    return false;
                    }
                  })
 
