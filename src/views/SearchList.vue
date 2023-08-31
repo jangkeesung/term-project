@@ -34,8 +34,8 @@ export default {
     data() {
         return {
             isLoading: false, // 로딩 스피너
+            isSearch: false, // 검색 버튼 클릭
             recipes: null,
-            monthlyRecipes: null,
             page: 1,
             col: "",
             word: ""
@@ -47,8 +47,10 @@ export default {
         await this.getRecipe();
     },
     mounted() {
-        window.addEventListener('scroll', this.scrollHandler);
-        //사실 첫 페이지는 최대 8개만 가져와야 하는데 처음 렌더링할 때 스크롤이 짧아서 처음부터 스크롤 이벤트가 걸려서 한 줄 더 가져오게 된다. 그래도 문제는 없어서 일단 보류
+        //사실 첫 페이지는 최대 8개만 가져와야 하는데 처음 렌더링할 때 스크롤이 짧아서 처음부터 스크롤 이벤트가 걸려서 한 줄 더 가져오게 되길래 준 딜레이
+        setTimeout(() =>{
+            window.addEventListener('scroll', this.scrollHandler);
+        },100);
     },
     beforeUnmount() {
         window.removeEventListener('scroll', this.scrollHandler);
@@ -57,21 +59,34 @@ export default {
         async getRecipe() {
             await axios.get('/term/search-recipe', {params: {page: this.page, s_col: this.col, s_word: this.word}})
             .then((response)=>{
+
                 let size = 0;
-                if (this.recipes !== null) {
+
+                if (this.recipes !== null && !this.isSearch) {
                     size = this.recipes.length;
                 }
+
                 this.recipes = response.data;
+
                 if (size < this.recipes.length) {
+                    this.isSearch = false;
                     this.page++;
                 }
-            });
+            })
+            .catch(e=>console.error(e));
         },
-        async handleSearch(ns_col, ns_word) {
+        handleSearch(ns_col, ns_word) {
             this.page = 1;
             this.col = ns_col;
             this.word = ns_word;
-            await this.getRecipe();
+            this.isSearch = true;
+            this.isLoading = true;
+            setTimeout(()=>{
+                this.getRecipe().then(()=>{
+                        this.isLoading = false;
+                        // console.log('스크롤이벤트 발생');
+                    });
+                }, 500)
         },
         scrollHandler() {
             let val = window.innerHeight + window.scrollY;
@@ -81,7 +96,7 @@ export default {
                 setTimeout(()=>{
                     this.getRecipe().then(()=>{
                         this.isLoading = false;
-                        console.log('스크롤이벤트 발생');
+                        // console.log('스크롤이벤트 발생');
                     });
                 }, 500)
             }

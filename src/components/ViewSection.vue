@@ -1,9 +1,14 @@
 <template lang="">
         <!-- Product section-->
         <section class="py-5 px-5">
-            <h1 class="header-s">{{ dto.r_subject }}</h1>
-            <!-- <span>재료 목록</span> -->
-
+            <div class="h1 header-s row px-4 py-4">
+                <div class="col-md-9">{{ dto.r_subject }}</div>
+                <div class="col-md-3 my-2">
+                    <h5 class="w-r">{{dto.ct_name}}</h5>
+                    <h5 class="w-r">👩‍🍳{{dto.r_writer}}</h5>   
+                    <h5 class="w-r">{{dto.r_regdate.substring(0,10)}}</h5>   
+                </div>
+            </div>
             <div class="d-flex ingredients">
                 <div v-for="(ingredient, index) in dto.ingredientlist" :key="ingredient" class='ingredient px-3'>
                     {{ingredient.i_content}}: {{ingredient.i_quantity}}
@@ -11,10 +16,10 @@
             </div>
             <div class="container px-4 px-lg-5 my-5" v-for="(snapshot, index) in dto.snapshotlist" key="snapshot">
                 <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0 s-img" 
+                    <div class="col-md-5"><img class="card-img-top mb-5 mb-md-0 s-img" 
                         v-bind:src="require('@/assets/img/snapshot/'+snapshot.s_pic)" 
                         alt="..." /></div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="small mb-1">Snapshot no.{{index + 1}}</div>
                         <p class="lead">{{snapshot.s_content}}</p>
                     </div>
@@ -86,23 +91,14 @@ font-style: normal;
 .s-img {
     border-radius: 10px;
 }
-    .header-s{
-        height: 8rem;
-        color: white;
-        background-color: #212529;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50px;
-    }
-    .ingredient {
-        border: 1px solid #AAA;
-        border-radius: 10px;
-        margin: 5px 5px;
-    }
-    .ingredients {
-        justify-content: center;
-    }
+.header-s{
+    color: white;
+    background-color: #212529;
+    display: flex;
+    /* justify-content: space-around; */
+    align-items: center;
+    border-radius: 50px;
+}
 .del {
     bottom: 25%;
     right: 3%;
@@ -139,5 +135,9 @@ font-style: normal;
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 9999px;
+}
+.w-r {
+    text-align: center;
+    margin: 0;
 }
 </style>

@@ -1,23 +1,21 @@
 <template lang="">
     <!-- Section-->
-    <div class="monthly" v-if="recipes">
-        <div class="container px-4 px-lg-5">
+    <div class="" v-if="recipes">
+        <div class="container px-4 px-lg-5 monthly">
             <h1 class="py-5 mon-h1">&lt; 이달의 레시피 &gt;</h1>
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" v-if="recipes.length > 0">
+            <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-3 row-cols-xl-4 justify-content-center" v-if="recipes.length > 0">
                 <div class="col mb-5 card-parent" v-for="(recipe, index) in recipes" key="recipe">
                     <div class="card h-100 card-recipe" @click="this.linkView(recipe.r_seq)">
-                        <!-- Product image require('@/assets/img/'+recipe.snapshotlist[0].s_pic) -->
-                        <img class="card-img-top img-list" v-bind:src="require('@/assets/img/snapshot/'+recipe.r_pic)" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">{{recipe.r_subject}}</h5>
-                                <!-- Product price-->
-                                {{recipe.r_category}}({{recipe.r_writer}})
+                            <!-- Product image require('@/assets/img/'+recipe.snapshotlist[0].s_pic) -->
+                            <img class="card-img-top img-list" v-bind:src="require('@/assets/img/snapshot/'+recipe.r_pic)" alt="..." />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <span class="fw-bolder r_category px-3 py-1">{{recipe.r_category}}</span>
+                                    <h5 class="fw-bolder r_subject mt-3">{{recipe.r_subject}}</h5>
+                                </div>
+                                <span class="d-flex justify-content-around row"><span class="r_writer">👩‍🍳{{recipe.r_writer}}</span><span class="r_regdate">{{recipe.r_regdate.substr(0,10)}}</span></span>
                             </div>
-                            <div>{{recipe.r_regdate.substr(0,10)}}</div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -72,4 +70,13 @@ font-style: normal;
 .mon-h1 {
     font-family: 'BMHANNAPro';
 }
+
+.r_category {
+        background-color: burlywood;
+        border-radius: 15px;
+    }
+    .r_regdate {
+        /* background-color: #CFF7AC; */
+        color: #AAA;
+    }
 </style>

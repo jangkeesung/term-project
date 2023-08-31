@@ -1,10 +1,10 @@
 <template lang="">
     <!-- Header-->
-    <div v-if="$store.state.bannerImg" class="py-5 banner-container bg-dark" :style="bannerStyle">
-        <div class="container px-4 px-lg-5 my-5">
+    <div v-if="$store.state.bannerImg" class="">
+        <div class="bg-dark container px-4 px-lg-5 my-0 banner-container d-flex justify-content-center align-items-center" :style="bannerStyle">
             <div class="text-center text-white">
                 <h1 class="display-4 fw-bolder">{{ bannerText }}</h1>
-                <p v-if="$store.state.bannerText" class="lead fw-normal text-white-50 mb-0"></p>
+                <!-- <p v-if="$store.state.bannerText" class="lead fw-normal text-white-50 mb-0"></p> -->
             </div>
             <!-- <img v-if="$store.state.bannerImg" :src="require(`@/assets/img/banner/${bannerImg}`)"> -->
         </div>
@@ -41,7 +41,11 @@ export default {
 </script>
 <style scoped>
 .banner-container {
-    background-size: cover;
+    background-size: contain;
     background-position: center;
+    /* background-repeat: no-repeat; */
+    background-color: transparent !important;
+    min-height: 300px;
+
 }
 </style>

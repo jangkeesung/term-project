@@ -1,35 +1,45 @@
 <template lang="">
     <section class="py-5 px-5 row gx-4 gx-lg-5 align-items-center">
         <form v-on:submit.prevent="onClickFormButton">
-            <div>
-                <div class="mb-3">
-                    <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject" autocomplete="off">
+            <div class="container">
+                <div class="d-flex row">
+                    <div class="mb-3 col-md-10">
+                        <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject" autocomplete="off">
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" aria-label="Default select example" name="category" required v-model="category">
+                            <option disabled value="">카테고리</option>
+                            <option v-for="(item, index) in categorylist" :key="item"  :value="item.seq">{{item.name}}</option>
+                        </select>
+                    </div>
                 </div>
-                <select class="form-select" aria-label="Default select example" name="category" required v-model="category">
-                    <option disabled value="">카테고리를 선택하세요</option>
-                    <option v-for="(item, index) in categorylist" :key="item"  :value="item.seq">{{item.name}}</option>
-                </select>
                     <div v-for="(item, index) in snapshot" :key="item">
-                        <div class="row mt-5 mb-5 snapshot align-items-center">
-                            <div class="custom-file col-md-6">
-                                <div :id="'imagePreview' + index" class="px-5"></div>
+                        <div class="row mt-2 mb-5 snapshot">
+                            <div class="d-flex justify-content-around mb-2">
+                                <h4 class="col-11">Snapshot no.{{index+1}}</h4>
+                                <button type="button" class="btn-del" @click="deleteSnapshot(index)"></button>
+                            </div>
+                            <div class="custom-file col-md-5">
+                                <div :id="'imagePreview' + index" class="mb-2">
+                                    <div class="py-3 imgBox">사진을 등록해주세요.</div>
+                                </div>
                                 <input style="display:none;" 
                                 :id="'customFile' + index" type="file" 
                                 @change="readInputFile($event, index)" name="pic" accept=".gif, .jpg, .png, jpeg"/>
                                 <label :for="'customFile' + index" class="btn btn-info mt-2 btn-add-pic mb-2">사진 등록</label>
                             </div>
                             <br>
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <textarea name="content" v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요." required></textarea>
                             </div>
+                            
                         </div>
-                        <button type="button" class="btn btn-danger mb-3" @click="deleteSnapshot(index)">스냅샷 삭제</button>
                     </div>
             </div>
             <div class="add-section">
-                <button class="btn btn-success btn-more mb-3 mt-3" @click="addSnapshot" type="button">스냅샷 추가</button>
+                <button class="btn btn-success btn-more mb-3 mt-3 mx-5" @click="addSnapshot" type="button">스냅샷 추가</button>
+                <button class="btn btn-primary mx-5" type="submit">레시피 등록</button>
             </div>
-        <button class="btn btn-primary" type="submit">레시피 등록하기</button>
     </form>
     </section>
     <div v-if="isLoading" class="loading-container">
@@ -67,6 +77,10 @@ export default {
             this.snapshot.push({pic: null, content: ''});
         },
         deleteSnapshot(index) {
+            if (this.snapshot.length < 2) {
+                alert('최소 하나의 스냅샷이 존재해야 합니다.');
+                return false;
+            }
             this.snapshot.splice(index, 1);
         },
         readInputFile(e, index) {// 미리보기 기능구현
@@ -83,7 +97,7 @@ export default {
                 };
                 var reader = new FileReader();
                 reader.onload = function(e){
-                    var html = `<img src=${e.target.result} style="width:100%;"/>`;
+                    var html = `<img src=${e.target.result} style="width:100%; border-radius:10px" class="mb-2"/>`;
                     $('#imagePreview' + index).html(html);
                     self.snapshot[index].pic = files[0];
                     // console.log(self.snapshot);
@@ -147,8 +161,10 @@ export default {
         list-style-type: none;
     }
     .snapshot {
-        padding: 10px;
-        border: 1px solid #EEE;
+        padding: 15px;
+        /* border: 5px solid burlywood; */
+        border-radius: 10px;
+        background-color: #EEE;
     }
     .title-box {
 	width: 100%;
@@ -170,7 +186,26 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 9999px;
 }
 #exampleFormControlTextarea1 {
-    min-height: 340px;
+    /* min-height: 340px; */
+    height: 100%;
     resize: none;
 }
+.imgBox {
+    min-height: 250px;
+    border-radius: 10px;
+    background-color: #FFF;
+}
+
+.btn-del {
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    background-image: url('@/assets/img/trash.png');
+    background-size: cover;
+    border: none;
+}
+.btn-del:hover {
+    box-shadow: 0px 0px 5px 1px #808080;
+}
+
 </style>

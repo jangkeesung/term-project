@@ -54,6 +54,10 @@ export default createStore({
             alert('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
             localStorage.removeItem("access_token");
             commit("removeUser");
+          } else if (response.data.id == 'tokenAccessError') {
+            alert('잘못된 토큰입니다.');
+            localStorage.removeItem("access_token");
+            commit("removeUser");
           } else {
             let userId = response.data.id;
             commit("loginSuccess", userId);

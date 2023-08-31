@@ -31,13 +31,14 @@ export default {
         Section,
         Footer,
         FadeLoader
-    },    
+    },
     data() {
         return {
             isLoading: false,
-            recipes: null,
+            recipes: [],
             page: 1,
-            my: true
+            my: true,
+            norecipes: false
         }
     },
     async created() {
@@ -54,7 +55,13 @@ export default {
         );
     },
     mounted() {
-        window.addEventListener('scroll', this.scrollHandler);
+        if (this.recipes == null) {
+            this.norecipes = true;
+        }
+        //사실 첫 페이지는 최대 8개만 가져와야 하는데 처음 렌더링할 때 스크롤이 짧아서 처음부터 스크롤 이벤트가 걸려서 한 줄 더 가져오게 되길래 준 딜레이
+        setTimeout(() =>{
+            window.addEventListener('scroll', this.scrollHandler);
+        },100);
     },
     beforeUnmount() {
         window.removeEventListener('scroll', this.scrollHandler);
