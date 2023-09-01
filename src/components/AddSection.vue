@@ -2,8 +2,9 @@
     <section class="py-5 px-5 row gx-4 gx-lg-5 align-items-center">
         <form v-on:submit.prevent="onClickFormButton">
             <div class="container">
+                <h1 class="pb-5 all-h1">&lt; 레시피 등록 &gt;</h1>
                 <div class="d-flex row">
-                    <div class="mb-3 col-md-10">
+                    <div class="col-md-10">
                         <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject" autocomplete="off">
                     </div>
                     <div class="col-md-2">
@@ -78,7 +79,7 @@ export default {
         },
         deleteSnapshot(index) {
             if (this.snapshot.length < 2) {
-                alert('최소 하나의 스냅샷이 존재해야 합니다.');
+                alert('최소 하나의 이상의 스냅샷이 존재해야 합니다.');
                 return false;
             }
             this.snapshot.splice(index, 1);

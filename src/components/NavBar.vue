@@ -25,7 +25,6 @@
                         </li> -->
                     </ul>
                     <div class="d-flex">
-
                         <button v-if="$store.state.Username == null" class="btn btn-outline-dark me-3" @click="loginModal = true">
                             로그인                            
                         </button>
@@ -36,10 +35,10 @@
                             <i class="bi bi-person-fill me-1"></i>
                             마이페이지                          
                         </button> -->
+                        <div v-if="$store.state.Username != null" class="d-flex align-items-center me-3 fw-bolder"><span>👩‍🍳{{$store.state.Username}}</span></div>
                         <button v-if="$store.state.Username != null" class="btn btn-outline-dark me-3" @click="logout();">
                             로그아웃                          
                         </button>
-
                     </div>
                 </div>
             </div>
@@ -75,7 +74,7 @@ export default {
                  }).then((result) => {
                      
                    if (result.isConfirmed) {
-                    localStorage.removeItem('access_token');
+                    sessionStorage.removeItem('access_token');
                     this.$store.state.Username = null;
                     Swal.fire({
                                 position: 'center',

@@ -1,28 +1,40 @@
 <template lang="">
     <section class="py-5 px-5 row gx-4 gx-lg-5 align-items-center">
         <form v-on:submit.prevent="onClickFormButton">
-            <div>
-                <div class="mb-3">
-                    <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject" autocomplete="off">
+            <div class="container">
+                <h1 class="pb-5 all-h1">&lt; 레시피 수정 &gt;</h1>
+                <div class="d-flex row">
+                    <div class="col-md-10">
+                        <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject" autocomplete="off">
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" aria-label="Default select example" name="category" required v-model="category">
+                            <option disabled value="">카테고리</option>
+                            <option v-for="(item, index) in categorylist" :key="item"  :value="item.seq">{{item.name}}</option>
+                        </select>
+                    </div>
                 </div>
-                <select class="form-select" aria-label="Default select example" name="category" required v-model="category">
-                    <option disabled value="">카테고리를 선택하세요</option>
-                    <option v-for="(item, index) in categorylist" :key="item" :value="item.seq">{{item.name}}</option>
-                </select>
-                    <div v-for="(item, index) in snapshot" :key="item">
-                        <div class="d-flex mt-5 mb-5 snapshot">
-                            <div class="custom-file col-md-6">
-                                <div :id="'imagePreview' + index" class="px-5">
+                <div v-for="(item, index) in snapshot" :key="item">
+                        <div class="row mt-2 mb-5 snapshot">
+                            <div class="d-flex justify-content-around mb-2">
+                                <h4 class="col-11">Snapshot no.{{index+1}}</h4>
+                                <!-- <button type="button" class="btn-del" @click="deleteSnapshot(index)"></button> -->
+                            </div>
+                            <div class="custom-file col-md-5">
+                                <div :id="'imagePreview' + index" class="mb-2">
+                                    <div class="py-3 imgBox">사진을 등록해주세요.</div>
                                 </div>
                                 <input style="display:none;" 
                                 :id="'customFile' + index" type="file" 
-                                @change="readInputFile($event, index, item.s_seq)" name="pic" accept=".gif, .jpg, .png, jpeg"/>
-                                <label :for="'customFile' + index" class="btn btn-secondary mt-2 btn-add-pic">사진수정</label>
+                                @change="readInputFile($event, index)" name="pic" accept=".gif, .jpg, .png, jpeg"/>
+                                <label :for="'customFile' + index" class="btn btn-info mt-2 btn-add-pic mb-2">사진 수정</label>
                             </div>
                             <br>
-                            <textarea name="content" v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요." required></textarea>
+                            <div class="col-md-7">
+                                <textarea name="content" v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요." required></textarea>
+                            </div>
+                            
                         </div>
-                        <!-- <button type="button" class="btn btn-secondary mb-3" @click="deleteSnapshot(index, item.s_seq)">x</button> -->
                     </div>
             </div>
             <!-- <div class="add-section">
@@ -93,7 +105,7 @@ export default {
         readSnapshot() {
             this.snapshot.forEach((item, index)=>{
                 var html = 
-                `<img src="${require('@/assets/img/snapshot/' + item.opic)}" style="width:100%;"/>`;
+                `<img src="${require('@/assets/img/snapshot/' + item.opic)}" style="width:100%; border-radius:10px" class="mb-2""/>`;
                 $('#imagePreview' + index).html(html);
             });
         },
@@ -121,7 +133,7 @@ export default {
                 };
                 var reader = new FileReader();
                 reader.onload = function(e){
-                    var html = `<img src=${e.target.result} style="width:100%;"/>`;
+                    var html = `<img src=${e.target.result} style="width:100%; border-radius:10px" class="mb-2"/>`;
                     $('#imagePreview' + index).html(html);
 
                     self.snapshot[index].pic = files[0];
@@ -196,8 +208,10 @@ export default {
         list-style-type: none;
     }
     .snapshot {
-        padding: 10px;
-        border: 1px solid #EEE;
+        padding: 15px;
+        /* border: 5px solid burlywood; */
+        border-radius: 10px;
+        background-color: #EEE;
     }
     .title-box {
 	width: 100%;
@@ -218,6 +232,27 @@ export default {
   transform: translate(-50%, -50%);
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 9999px;
 }
+#exampleFormControlTextarea1 {
+    /* min-height: 340px; */
+    height: 100%;
+    resize: none;
+}
+.imgBox {
+    min-height: 250px;
+    border-radius: 10px;
+    background-color: #FFF;
+}
 
+.btn-del {
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    background-image: url('@/assets/img/trash.png');
+    background-size: cover;
+    border: none;
+}
+.btn-del:hover {
+    box-shadow: 0px 0px 5px 1px #808080;
+}
 
 </style>

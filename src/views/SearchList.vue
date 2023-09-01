@@ -83,6 +83,7 @@ export default {
             this.isLoading = true;
             setTimeout(()=>{
                 this.getRecipe().then(()=>{
+                        this.$store.commit('setColWord', {s_col: this.col, s_word: this.word});
                         this.isLoading = false;
                         // console.log('스크롤이벤트 발생');
                     });
