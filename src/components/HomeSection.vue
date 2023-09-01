@@ -47,6 +47,7 @@ export default {
         },
         search() {
             // this.$router.push({name: 'search', query: { s_col: this.s_col, s_word: this.s_word }});
+            // this.$router.push('/search?s_col='+this.s_col+'&s_word='+this.s_word);
             this.$store.commit('setColWord', {s_col:this.s_col, s_word:this.s_word});
             this.$router.push('/search');
         }

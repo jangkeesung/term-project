@@ -1,7 +1,8 @@
 <template>
     <div>
         <NavBar />
-        <Section :recipes="recipes" :p_col="col" :p_word="word" @gosearch="handleSearch"/>
+        <!-- <Section :recipes="recipes" :p_col="s_col" :p_word="s_word"/> -->
+        <Section :recipes="recipes" :isLoading="isLoading" :p_col="col" :p_word="word" @gosearch="handleSearch"/>
         <Footer />
         <div v-if="isLoading" class="loading-container">
             <div class="loading">
@@ -30,7 +31,7 @@ export default {
         Footer,
         FadeLoader
     },
-    //props: ['s_col', 's_word'],
+    // props: ['s_col', 's_word'],
     data() {
         return {
             isLoading: false, // 로딩 스피너
@@ -44,7 +45,7 @@ export default {
     async created() {
         this.col = this.$store.state.s_col;
         this.word = this.$store.state.s_word;
-        await this.getRecipe();
+        await this.getRecipe(this.col, this.word);
     },
     mounted() {
         //사실 첫 페이지는 최대 8개만 가져와야 하는데 처음 렌더링할 때 스크롤이 짧아서 처음부터 스크롤 이벤트가 걸려서 한 줄 더 가져오게 되길래 준 딜레이
@@ -56,34 +57,32 @@ export default {
         window.removeEventListener('scroll', this.scrollHandler);
     },
     methods: {
-        async getRecipe() {
-            await axios.get('/term/search-recipe', {params: {page: this.page, s_col: this.col, s_word: this.word}})
+        async getRecipe(col, word) {
+            await axios.get('/term/search-recipe', {params: {page: this.page, s_col: col, s_word: word}})
             .then((response)=>{
 
                 let size = 0;
-
                 if (this.recipes !== null && !this.isSearch) {
                     size = this.recipes.length;
                 }
-
                 this.recipes = response.data;
-
                 if (size < this.recipes.length) {
                     this.isSearch = false;
                     this.page++;
                 }
+                // console.log(this.page);
             })
             .catch(e=>console.error(e));
         },
         handleSearch(ns_col, ns_word) {
             this.page = 1;
-            this.col = ns_col;
-            this.word = ns_word;
             this.isSearch = true;
             this.isLoading = true;
             setTimeout(()=>{
-                this.getRecipe().then(()=>{
-                        this.$store.commit('setColWord', {s_col: this.col, s_word: this.word});
+                this.getRecipe(ns_col, ns_word).then(()=>{
+                    this.col = ns_col;
+                    this.word = ns_word;
+                    this.$store.commit('setColWord', {s_col: this.col, s_word: this.word});
                         this.isLoading = false;
                         // console.log('스크롤이벤트 발생');
                     });
@@ -95,7 +94,7 @@ export default {
             if(val > document.body.offsetHeight - 1 && !this.isLoading){
                 this.isLoading = true;
                 setTimeout(()=>{
-                    this.getRecipe().then(()=>{
+                    this.getRecipe(this.col, this.word).then(()=>{
                         this.isLoading = false;
                         // console.log('스크롤이벤트 발생');
                     });

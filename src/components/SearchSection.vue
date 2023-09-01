@@ -40,7 +40,7 @@
 </template>
 <script>
 export default {
-    props: ['recipes', 'p_col', 'p_word'],
+    props: ['recipes', 'p_col', 'p_word', 'isLoading'],
     methods: {
         linkView(seq) {
             // this.$store.state.r_seq = recipe.r_seq;
