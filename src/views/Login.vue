@@ -56,7 +56,7 @@ export default {
                     //console.log(response.data);
                     if (response.data !== "" && response.data !== null) {
                         let token = response.data
-                        sessionStorage.setItem('access_token', token);
+                        localStorage.setItem('access_token', token);
                         this.$store.dispatch("getMemberInfo");
                         
                         Swal.fire({

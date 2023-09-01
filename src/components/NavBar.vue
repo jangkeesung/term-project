@@ -74,7 +74,7 @@ export default {
                  }).then((result) => {
                      
                    if (result.isConfirmed) {
-                    sessionStorage.removeItem('access_token');
+                    localStorage.removeItem('access_token');
                     this.$store.state.Username = null;
                     Swal.fire({
                                 position: 'center',

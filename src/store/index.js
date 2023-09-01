@@ -6,7 +6,7 @@ export default createStore({
     Username: null,
     bannerImg: '',
     bannerText: '',
-    s_col: 'r_subject',
+    s_col: '',
     s_word: ''
   },
   getters: {
@@ -40,7 +40,7 @@ export default createStore({
   },
   actions: {
     async getMemberInfo({ commit }) {
-      let token = sessionStorage.getItem("access_token");
+      let token = localStorage.getItem("access_token");
       if (token) {
         let config = {
           headers: {
@@ -51,19 +51,19 @@ export default createStore({
         .then(response => {
           // console.log(response.data);
           if (response.data.id == 'ExpiredJwt Please Retry Login') {
-            alert('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
-            sessionStorage.removeItem("access_token");
+            // alert('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
+            localStorage.removeItem("access_token");
             commit("removeUser");
           } else if (response.data.id == 'tokenAccessError') {
             alert('잘못된 토큰입니다.');
-            sessionStorage.removeItem("access_token");
+            localStorage.removeItem("access_token");
             commit("removeUser");
           } else {
             let userId = response.data.id;
             commit("loginSuccess", userId);
             //새로 받은 토큰으로 덮어 씌우기
             let token = response.data.token;
-            sessionStorage.setItem('access_token', token);
+            localStorage.setItem('access_token', token);
           }
         }).catch((e)=>{
           commit('loginFail', e);
@@ -83,8 +83,6 @@ export default createStore({
   modules: {
   },
   plugins: [
-    createPersistedState({
-      paths: ["store"]
-    })
+    createPersistedState()
   ]
 })
