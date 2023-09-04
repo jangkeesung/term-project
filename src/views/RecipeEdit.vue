@@ -4,7 +4,9 @@
         <Header />
         <Section v-if='recipeDTO' v-bind:dto='recipeDTO' />
         <Footer />
-        <UB />
+        <div class="box-float">
+            <UB />
+        </div>
     </div>
 </template>
 <script>
@@ -43,5 +45,9 @@ export default {
 }
 </script>
 <style scoped>
-    
+    .box-float {
+        bottom: 8%;
+	    right: 3%;
+        position: fixed;
+    }
 </style>

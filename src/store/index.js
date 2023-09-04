@@ -5,7 +5,7 @@ export default createStore({
   state: {
     Username: null,
     bannerImg: '',
-    bannerText: '',
+    bannerURL: '',
     s_col: '',
     s_word: ''
   },
@@ -29,7 +29,7 @@ export default createStore({
 
     setBanner(state, banner) {
       state.bannerImg = banner.b_pic;
-      state.bannerText = banner.b_content;
+      state.bannerURL = banner.b_content;
     },
   
     setColWord(state, item) {

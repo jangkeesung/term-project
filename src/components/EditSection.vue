@@ -119,7 +119,7 @@ export default {
             });
             this.snapshot.splice(index, 1);
         },
-        readInputFile(e, index, s_seq) {// 미리보기 기능구현
+        readInputFile(e, index) {// 미리보기 기능구현
             const self = this;
             $('#imagePreview'+index).empty();
             var files = e.target.files;
@@ -131,6 +131,14 @@ export default {
                     alert("이미지 확장자만 업로드 가능합니다.");
                     return;
                 };
+                if(f.size > 10*1024*1024) {
+                    $('#customFile'+index).val("");
+                    alert('10MB 이하의 이미지만 첨부 가능합니다.');
+                    var html = 
+                        `<img src="${require('@/assets/img/snapshot/' + self.snapshot[index].opic)}" style="width:100%; border-radius:10px" class="mb-2""/>`;
+                    $('#imagePreview' + index).html(html);
+                    return false;
+                }
                 var reader = new FileReader();
                 reader.onload = function(e){
                     var html = `<img src=${e.target.result} style="width:100%; border-radius:10px" class="mb-2"/>`;
@@ -156,26 +164,29 @@ export default {
                 //     alert('최소 하나 이상의 스냅샷을 작성해주세요.');
                 //     return;
                 // }
-    
+
+                let totalFileSize = 0;
+
                 this.snapshot.forEach((item, index) => {
-    
-                    //수정에서 불 필요
-                    // if (item.pic == null) {
-                    //     alert('이미지를 첨부해주세요');
-                    //     valid = false;
-                    //     return;
-                    // }
-    
                     formData.append('s_seq', item.s_seq);
                     formData.append('content', item.content);
                     formData.append('opic', item.opic);
+                    //스냅샷 객체에 사진이 없으면 더미 파일을 저장
                     if (!item.pic) {
                         const blob = new Blob([''], { type: 'text/plain' });
                         formData.append('pic', blob, 'dummy.txt');
                     } else {
                         formData.append('pic', item.pic);
+                        totalFileSize += item.pic.size;
                     }
                 });
+
+                if (totalFileSize > 209715200) {
+                    alert('첨부된 파일의 총 용량은 최대 200MB입니다.');
+                    valid = false;
+                    this.isLoading = false;
+                    return false;
+                }
                 
                 formData.append('r_seq', this.dto.r_seq);
                 formData.append('subject', this.subject);

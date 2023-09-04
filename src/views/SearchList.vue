@@ -31,7 +31,7 @@ export default {
         Footer,
         FadeLoader
     },
-    // props: ['s_col', 's_word'],
+    props: ['s_category'],
     data() {
         return {
             isLoading: false, // 로딩 스피너
@@ -43,8 +43,13 @@ export default {
         }
     },
     async created() {
-        this.col = this.$store.state.s_col;
-        this.word = this.$store.state.s_word;
+        if (!this.s_category) {
+            this.col = this.$store.state.s_col;
+            this.word = this.$store.state.s_word;
+        } else {
+            this.col = "r_subject";
+            this.word = "";
+        }
         await this.getRecipe(this.col, this.word);
     },
     mounted() {

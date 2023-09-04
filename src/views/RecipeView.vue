@@ -3,14 +3,14 @@
         <NavBar />
         <Section v-if='recipeDTO' v-bind:dto='recipeDTO' />
         <Footer />
-        <UB />
+
+
     </div>
 </template>
 <script>
 import NavBar from '../components/NavBar.vue';
 import Section from '../components/ViewSection.vue';
 import Footer from '../components/Footer.vue';
-import UB from '../components/UpButton.vue'
 import axios from 'axios';
 export default {
     data() {
@@ -26,7 +26,6 @@ export default {
         NavBar,
         Section,
         Footer,
-        UB
     },
     async created() {
       await axios.get("/term/view-recipe/" + this.$props.query)
@@ -38,5 +37,9 @@ export default {
 }
 </script>
 <style scoped>
-    
+    .box-float {
+        bottom: 8%;
+	    right: 3%;
+        position: fixed;
+    }
 </style>

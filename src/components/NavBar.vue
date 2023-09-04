@@ -7,22 +7,25 @@
                 <router-link to="/" class="navbar-brand">OurRecipes</router-link>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4" v-if="$store.state.Username != null">
-                        <li class="nav-item">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item" v-if="$store.state.Username != null">
                             <router-link to="/add-recipe" class="nav-link active a-addrecipe" aria-current="page">레시피 등록</router-link>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" v-if="$store.state.Username != null">
                             <router-link to="/my-recipe" class="nav-link active a-myrecipe" aria-current="page">내 레시피</router-link>
                         </li>
-                        <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li> -->
+                        <!-- <li class="nav-item dropdown"> -->
+                            <!-- <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a> -->
+                            <!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdown"> -->
+                                <!-- <li v-for="(item, index) in categorylist" :key="item"  :value="item.seq"> -->
+                                    <!-- <router-link :to="'/search?category='+item.seq" class="dropdown-item" aria-current="page">{{item.name}}</router-link> -->
+                                <!-- </li> -->
+                                <!-- <li><a class="dropdown-item" href="#!">All Products</a></li> -->
+                                <!-- <li><hr class="dropdown-divider" /></li> -->
+                                <!-- <li><a class="dropdown-item" href="#!">Popular Items</a></li> -->
+                                <!-- <li><a class="dropdown-item" href="#!">New Arrivals</a></li> -->
+                            <!-- </ul> -->
+                        <!-- </li> -->
                     </ul>
                     <div class="d-flex">
                         <button v-if="$store.state.Username == null" class="btn btn-outline-dark me-3" @click="loginModal = true">
@@ -47,6 +50,7 @@
 <script>
 import Register from '../components/RegisterModal.vue';
 import Login from '../components/LoginModal.vue';
+import axios from 'axios';
 export default {
     // beforeCreate() {
     //     this.$store.dispatch('getMemberInfo');
@@ -54,8 +58,17 @@ export default {
     data() {
         return {
             registerModal: false,
-            loginModal: false
+            loginModal: false,
+            categorylist: []
         };
+    },
+    created() {
+        axios.get("/term/get-category")
+        .then((response)=>{
+            response.data.forEach((item, index)=>{
+                this.categorylist.push({seq: item.ct_seq, name: item.ct_name});
+            });
+        });
     },
     components: {
         Register,

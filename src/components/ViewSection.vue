@@ -25,10 +25,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex eddel justify-content-center align-items-center" v-if="this.$store.state.Username == dto.r_writer">
-                <div class="edit" @click="editRecipe">수정</div>
-                <div class="del" @click="deleteRecipe">삭제</div>
-            </div>
+
             <!-- <div class="mt-5 text-start">
                 <span>댓글</span>
                 <div v-for="(comment, index) in dto.commentlist" :key="comment" >
@@ -37,6 +34,17 @@
             </div> -->
             
         </section>
+
+        <!-- 플로팅 버튼 -->
+        <div class="box-float">
+            <UB />
+            <div v-if="this.$store.state.Username == dto.r_writer">
+                <div class="btn-float mb-2" @click="editRecipe">수정</div>
+                <div class="btn-float mb-2" @click="deleteRecipe">삭제</div>
+            </div>
+        </div>
+
+        <!-- 로딩 스피너 -->
         <div v-if="isLoading" class="loading-container">
             <div class="loading">
                 <Fade-loader />
@@ -46,9 +54,10 @@
 <script>
 import axios from 'axios';
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue';
+import UB from '../components/UpButton.vue';
 export default {
     props:['dto'],
-    components: { FadeLoader },
+    components: { FadeLoader, UB },
     data() {
         return{
             isLoading: false
@@ -59,7 +68,13 @@ export default {
 
             if (confirm('정말 삭제하시겠습니까? (삭제된 글은 복구되지 않습니다.)')) {
                 this.isLoading = true;
-                axios.delete('/term/delete-recipe',{ params: {r_seq: this.dto.r_seq}, maxRedirects: 0})
+                let config = {
+                    headers: {
+                        "access-token": token
+                    },
+                    params: {r_seq: this.dto.r_seq}
+                };
+                axios.delete('/term/delete-recipe', config)
                 .then((response)=>{
                     // console.log(response);
                     if(response.data > 0) {
@@ -67,6 +82,8 @@ export default {
                             this.$router.push('/');
                             // console.log('delete');
                         }, 1000);
+                    } else {
+                        alert('게시물 삭제 실패');
                     }
                 }).catch((error)=>console.log(error));
             }
@@ -99,35 +116,6 @@ font-style: normal;
     align-items: center;
     border-radius: 50px;
 }
-.del {
-    bottom: 25%;
-    right: 3%;
-    position: fixed;
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    line-height: 50px;
-    border-radius: 50%;
-    background-color: #808080;
-    opacity: 0.5; 
-    cursor: pointer;
-    color: black;
-}
-
-.edit {
-    bottom: 33%;
-    right: 3%;
-    position: fixed;
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    line-height: 50px;
-    border-radius: 50%;
-    background-color: #808080;
-    opacity: 0.5; 
-    cursor: pointer;
-    color: black;
-}
 .loading {
   z-index: 2;
   position: fixed;
@@ -139,5 +127,10 @@ font-style: normal;
 .w-r {
     text-align: center;
     margin: 0;
+}
+.box-float {
+    bottom: 8%;
+    right: 3%;
+    position: fixed;
 }
 </style>

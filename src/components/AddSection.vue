@@ -1,5 +1,5 @@
 <template lang="">
-    <section class="py-5 px-5 row gx-4 gx-lg-5 align-items-center">
+    <section class="py-5 row gx-4 gx-lg-5 align-items-center">
         <form v-on:submit.prevent="onClickFormButton">
             <div class="container">
                 <h1 class="pb-5 all-h1">&lt; 레시피 등록 &gt;</h1>
@@ -86,7 +86,8 @@ export default {
         },
         readInputFile(e, index) {// 미리보기 기능구현
             const self = this;
-            $('#imagePreview'+index).empty();
+            var html = '<div class="py-3 imgBox" style="min-height: 250px;border-radius: 10px;background-color: #FFF;">사진을 등록해주세요.</div>';
+            $('#imagePreview' + index).html(html);
             var files = e.target.files;
             var fileArr = Array.prototype.slice.call(files);
             // console.log(fileArr);
@@ -94,11 +95,18 @@ export default {
                 if(!f.type.match("image/jpeg|image/jpg|image/png|image/gif")){
                     $('#customFile'+index).val("");
                     alert("이미지 확장자만 업로드 가능합니다.");
-                    return;
-                };
+                    return false;
+                }
+                if(f.size > 10*1024*1024) {
+                    $('#customFile'+index).val("");
+                    alert('10MB 이하의 이미지만 첨부 가능합니다.');
+                    html = '<div class="py-3 imgBox" style="min-height: 250px;border-radius: 10px;background-color: #FFF;">사진을 등록해주세요.</div>';
+                    $('#imagePreview' + index).html(html);
+                    return false;
+                }
                 var reader = new FileReader();
                 reader.onload = function(e){
-                    var html = `<img src=${e.target.result} style="width:100%; border-radius:10px" class="mb-2"/>`;
+                    html = `<img src=${e.target.result} style="width:100%; border-radius:10px" class="mb-2"/>`;
                     $('#imagePreview' + index).html(html);
                     self.snapshot[index].pic = files[0];
                     // console.log(self.snapshot);
@@ -118,17 +126,27 @@ export default {
                     alert('최소 하나 이상의 스냅샷을 작성해주세요.');
                     return;
                 }
-    
+                
+                let totalFileSize = 0;
+
                 this.snapshot.forEach((item, index) => {
                     if (item.pic == null) {
                         alert('이미지를 첨부해주세요');
                         valid = false;
-                        return;
+                        this.isLoading = false;
+                        return false;
                     }
-    
+                    totalFileSize += item.pic.size;
                     formData.append('pic', item.pic);
                     formData.append('content', item.content);
                 });
+
+                if (totalFileSize > 209715200) {
+                    alert('첨부된 파일의 총 용량은 최대 200MB입니다.');
+                    valid = false;
+                    this.isLoading = false;
+                    return false;
+                }
     
                 formData.append('subject', this.subject);
                 formData.append('category', this.category);
@@ -142,6 +160,7 @@ export default {
                         setTimeout(() => {
                             let seq = response.data.r_seq;
                             this.$router.push({ name: 'recipe', query: { seq } });
+                            this.isLoading = false;
                             // location.href="#/view-recipe?seq=" + seq;
                         }, 1000);
                     }).catch((e)=>{ console.error('게시글 등록 실패 api 요청 에러:', e);});
@@ -149,6 +168,7 @@ export default {
                 }
 
             } else {
+                this.isLoading = false;
                 return false;
             }
 
@@ -162,7 +182,7 @@ export default {
         list-style-type: none;
     }
     .snapshot {
-        padding: 15px;
+        padding: 15px 0px;
         /* border: 5px solid burlywood; */
         border-radius: 10px;
         background-color: #EEE;
@@ -187,7 +207,6 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 9999px;
 }
 #exampleFormControlTextarea1 {
-    /* min-height: 340px; */
     height: 100%;
     resize: none;
 }
