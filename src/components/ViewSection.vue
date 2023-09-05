@@ -68,11 +68,13 @@ export default {
 
             if (confirm('정말 삭제하시겠습니까? (삭제된 글은 복구되지 않습니다.)')) {
                 this.isLoading = true;
+                let token = localStorage.getItem("access_token");
+                let r_seq = this.dto.r_seq;
                 let config = {
                     headers: {
                         "access-token": token
                     },
-                    params: {r_seq: this.dto.r_seq}
+                    params: {r_seq: r_seq}
                 };
                 axios.delete('/term/delete-recipe', config)
                 .then((response)=>{
@@ -84,6 +86,7 @@ export default {
                         }, 1000);
                     } else {
                         alert('게시물 삭제 실패');
+                        this.$router.go(0);
                     }
                 }).catch((error)=>console.log(error));
             }

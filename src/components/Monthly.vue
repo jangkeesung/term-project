@@ -60,7 +60,7 @@ font-style: normal;
   width: 100%;
   height: 100%;
   content: "";
-  background-image: url('@/assets/img/monthly.jpg');
+  background-image: url('@/assets/img/bg-blue.jpg');
   position: absolute;
   top: 0;
   left: 0;

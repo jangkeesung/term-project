@@ -14,18 +14,18 @@
                         <li class="nav-item" v-if="$store.state.Username != null">
                             <router-link to="/my-recipe" class="nav-link active a-myrecipe" aria-current="page">내 레시피</router-link>
                         </li>
-                        <!-- <li class="nav-item dropdown"> -->
-                            <!-- <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a> -->
-                            <!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdown"> -->
-                                <!-- <li v-for="(item, index) in categorylist" :key="item"  :value="item.seq"> -->
-                                    <!-- <router-link :to="'/search?category='+item.seq" class="dropdown-item" aria-current="page">{{item.name}}</router-link> -->
-                                <!-- </li> -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li v-for="(item, index) in categorylist" :key="item"  :value="item.seq">
+                                    <router-link :to="'/search?category='+item.seq" class="dropdown-item" aria-current="page">{{item.name}}</router-link>
+                                </li>
                                 <!-- <li><a class="dropdown-item" href="#!">All Products</a></li> -->
                                 <!-- <li><hr class="dropdown-divider" /></li> -->
                                 <!-- <li><a class="dropdown-item" href="#!">Popular Items</a></li> -->
                                 <!-- <li><a class="dropdown-item" href="#!">New Arrivals</a></li> -->
-                            <!-- </ul> -->
-                        <!-- </li> -->
+                            </ul>
+                        </li>
                     </ul>
                     <div class="d-flex">
                         <button v-if="$store.state.Username == null" class="btn btn-outline-dark me-3" @click="loginModal = true">
