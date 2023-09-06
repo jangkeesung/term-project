@@ -7,13 +7,14 @@
 					<div class="quit" @click="$emit('modalClose')">X</div>
 					<h1 class="h1 text-center fw-bold title">회원 가입</h1>
 					<p class="fs-6 text-center">회원가입 후 다양한 서비스를 이용하세요.</p>
-					<div class="col-10">
+					<div class="col-11">
 						<div class="mb-1">아이디</div>
-						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="userid" v-model="id" @input="idcheck"
-								placeholder="name@example.com" name="m_id" required autocomplete="off"> <label
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="userid" v-model="id" @click="idclick"
+								placeholder="name@example.com" name="m_id" required autocomplete="off" maxlength="15"> <label
 								for="floatingInput">4~15자(알파벳, 숫자 가능)</label>
-						</div>
+                            <button type="button" class="btn btn-warning mt-3" @click=idcheck>아이디 중복 검사</button>
+                        </div>
 						<div class="mb-1">비밀번호</div>
 						<div class="form-floating mb-3">
 							<input type="password" class="form-control" id="password" v-model="pw" @input="pwcheck"
@@ -28,12 +29,12 @@
 						</div>
 						<div class="mb-1">이름</div>
 						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="name" v-model="name" @keyup="namecheck"
+							<input type="text" class="form-control" id="name" v-model="name" @keyup="namecheck" maxlength="6"
 								placeholder="name" name="m_name" autocomplete="off" required> <label for="floatingPassword">한글 이름</label>
 						</div>
 						<div class="mb-1">연락처</div>
 						<div class="form-floating">
-							<input type="text" class="form-control" id="tel"
+							<input type="text" class="form-control" id="tel" maxlength="13"
 								placeholder="tel" name="m_tel" required v-model="tel" @input="telcheck" autocomplete="off"> <label for="floatingPassword">"-"
 								없이 입력해주세요</label>
 						</div>
@@ -88,6 +89,9 @@ export default {
                             this.$router.push('/login');
                         });
                     } else {
+                        if (response.data == -100) {
+                            console.log('아이디 중복');
+                        }
                         Swal.fire({
                             position: 'center',
                             icon: 'error',
@@ -104,11 +108,21 @@ export default {
                     }
                 })
                 .catch((e)=>console.error(e));
+            } else {
+                alert('입력란을 다시 확인해주세요.');
+                return false;
             }
 
         },
+        idclick() {
+            var idInput = document.getElementById('userid');
+            this.idIsValid = false;
+            idInput.classList.add('is-invalid');
+            $('#userid + label').text('아이디 중복 검사를 해주세요.');
+        },
         idcheck() {
             // console.log(this.id);
+            // this.idIsValid = false;
             var idInput = document.getElementById('userid');
             var idPattern = /^(?=.*[a-zA-Z])[a-zA-Z0-9]{4,15}$/;
             this.idIsValid = idPattern.test(this.id);
@@ -153,6 +167,8 @@ export default {
                 pwInput.classList.add('is-invalid');
             }
 
+            this.pwccheck();
+
         },
         pwccheck() {
             var pwcInput = document.getElementById('passwordcheck');
@@ -169,9 +185,9 @@ export default {
         },
         namecheck() {
             var nameInput = document.getElementById('name');
-            var namePattern = /^[가-힣]{1,5}$/;
+            var namePattern = /^[가-힣]{2,6}$/;
 
-            this.nameIsValid = namePattern.test(this.name);
+            this.nameIsValid = namePattern.test(nameInput.value);
             
             if (this.nameIsValid) {
                 nameInput.classList.remove('is-invalid');
@@ -183,7 +199,7 @@ export default {
         },
         telcheck() {
             var telInput = document.getElementById('tel');
-            var telPattern =  /^\d{2,3}\d{3,4}\d{4}$/;
+            var telPattern =  /^\+?\d{2,4}\d{3,4}\d{4}$/
             
             this.telIsValid = telPattern.test(this.tel);
             

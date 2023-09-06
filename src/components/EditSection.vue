@@ -5,7 +5,7 @@
                 <h1 class="pb-5 all-h1">&lt; 레시피 수정 &gt;</h1>
                 <div class="d-flex row">
                     <div class="col-md-10">
-                        <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject" autocomplete="off">
+                        <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject" autocomplete="off" maxlength="100">
                     </div>
                     <div class="col-md-2">
                         <select class="form-select" aria-label="Default select example" name="category" required v-model="category">
@@ -22,7 +22,7 @@
                             </div>
                             <div class="custom-file col-md-5">
                                 <div :id="'imagePreview' + index" class="mb-2">
-                                    <div class="py-3 imgBox">사진을 등록해주세요.</div>
+                                    <img :src="require('@/assets/img/snapshot/' + item.opic)" style="width:100%; border-radius:10px" class="mb-2"/>
                                 </div>
                                 <input style="display:none;" 
                                 :id="'customFile' + index" type="file" 
@@ -31,7 +31,7 @@
                             </div>
                             <br>
                             <div class="col-md-7">
-                                <textarea name="content" v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요." required></textarea>
+                                <textarea name="content" v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요." required maxlength="1000"></textarea>
                             </div>
                             
                         </div>
@@ -99,16 +99,16 @@ export default {
         });
     },
     mounted() {
-      this.readSnapshot();
+    //   this.readSnapshot();
     },
     methods: {
-        readSnapshot() {
-            this.snapshot.forEach((item, index)=>{
-                var html = 
-                `<img src="${require('@/assets/img/snapshot/' + item.opic)}" style="width:100%; border-radius:10px" class="mb-2""/>`;
-                $('#imagePreview' + index).html(html);
-            });
-        },
+        // readSnapshot() {
+        //     this.snapshot.forEach((item, index)=>{
+        //         var html = 
+        //         `<img src="${require('@/assets/img/snapshot/' + item.opic)}" style="width:100%; border-radius:10px" class="mb-2""/>`;
+        //         $('#imagePreview' + index).html(html);
+        //     });
+        // },
         addSnapshot() {
             this.snapshot.push({pic: null, content: '', s_seq: -1});
         },
@@ -121,22 +121,21 @@ export default {
         },
         readInputFile(e, index) {// 미리보기 기능구현
             const self = this;
-            $('#imagePreview'+index).empty();
             var files = e.target.files;
+            if (files.length === 0) {
+                return false;
+            }
             var fileArr = Array.prototype.slice.call(files);
             // console.log(fileArr);
             fileArr.forEach(function(f){
                 if(!f.type.match("image/jpeg|image/jpg|image/png|image/gif")){
                     $('#customFile'+index).val("");
                     alert("이미지 확장자만 업로드 가능합니다.");
-                    return;
+                    return false;
                 };
                 if(f.size > 10*1024*1024) {
                     $('#customFile'+index).val("");
                     alert('10MB 이하의 이미지만 첨부 가능합니다.');
-                    var html = 
-                        `<img src="${require('@/assets/img/snapshot/' + self.snapshot[index].opic)}" style="width:100%; border-radius:10px" class="mb-2""/>`;
-                    $('#imagePreview' + index).html(html);
                     return false;
                 }
                 var reader = new FileReader();
@@ -196,12 +195,12 @@ export default {
                 if (valid) {
                     
                     await axios.patch('/term/edit-recipe', formData).then((response) => {
-                        // console.log(response);
+
                         setTimeout(() => {
                             let seq = this.dto.r_seq;    
                             this.$router.push({ name: 'recipe', query: { seq } });
-                            // location.href="#/view-recipe?seq=" + seq;
                         }, 1000);
+
                     }).catch((e)=>{console.error('api 요청 에러:', e);});
                     
                 }

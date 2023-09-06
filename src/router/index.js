@@ -38,6 +38,11 @@ const routes = [
     name: 'search',
     component: () => import('../views/SearchList.vue'),
     props: route => ({ s_category: route.query.category})
+  },
+  {
+    path: '/mypage',
+    name: 'mypage',
+    component: () => import('../views/MyPage.vue')
   }
 
 ]

@@ -4,7 +4,8 @@
         <Header />
         <Monthly v-bind:recipes="monthlyRecipes"/>
         <Section v-bind:recipes="recipes"/>
-        <Footer />
+        <Footer v-if="recipes" />
+        <Blank v-else />
         <div v-if="isLoading" class="loading-container">
             <div class="loading">
                 <Fade-loader />
@@ -19,6 +20,7 @@ import Section from '../components/HomeSection.vue';
 import Monthly from '../components/Monthly.vue';
 import Footer from '../components/Footer.vue';
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue';
+import Blank from '../components/WhiteBody.vue';
 import axios from 'axios';
 export default {
     beforeCreate() {
@@ -30,7 +32,8 @@ export default {
         Monthly,
         Section,
         Footer,
-        FadeLoader
+        FadeLoader,
+        Blank
     },    
     data() {
         return {

@@ -5,7 +5,7 @@
                 <h1 class="pb-5 all-h1">&lt; 레시피 등록 &gt;</h1>
                 <div class="d-flex row">
                     <div class="col-md-10">
-                        <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject" autocomplete="off">
+                        <input class="title-box" type="text" name="subject" placeholder="제목을 입력해주세요." required v-model="subject" autocomplete="off" maxlength="100">
                     </div>
                     <div class="col-md-2">
                         <select class="form-select" aria-label="Default select example" name="category" required v-model="category">
@@ -31,7 +31,7 @@
                             </div>
                             <br>
                             <div class="col-md-7">
-                                <textarea name="content" v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요." required></textarea>
+                                <textarea name="content" v-model="snapshot[index].content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="내용을 작성해주세요." required maxlength="1000"></textarea>
                             </div>
                             
                         </div>
@@ -79,18 +79,19 @@ export default {
         },
         deleteSnapshot(index) {
             if (this.snapshot.length < 2) {
-                alert('최소 하나의 이상의 스냅샷이 존재해야 합니다.');
+                alert('최소 한 개 이상의 스냅샷이 존재해야 합니다.');
                 return false;
             }
             this.snapshot.splice(index, 1);
         },
         readInputFile(e, index) {// 미리보기 기능구현
             const self = this;
-            var html = '<div class="py-3 imgBox" style="min-height: 250px;border-radius: 10px;background-color: #FFF;">사진을 등록해주세요.</div>';
-            $('#imagePreview' + index).html(html);
             var files = e.target.files;
+            if (files.length === 0) {
+                return false;
+            }
             var fileArr = Array.prototype.slice.call(files);
-            // console.log(fileArr);
+
             fileArr.forEach(function(f){
                 if(!f.type.match("image/jpeg|image/jpg|image/png|image/gif")){
                     $('#customFile'+index).val("");
@@ -100,13 +101,11 @@ export default {
                 if(f.size > 10*1024*1024) {
                     $('#customFile'+index).val("");
                     alert('10MB 이하의 이미지만 첨부 가능합니다.');
-                    html = '<div class="py-3 imgBox" style="min-height: 250px;border-radius: 10px;background-color: #FFF;">사진을 등록해주세요.</div>';
-                    $('#imagePreview' + index).html(html);
                     return false;
                 }
                 var reader = new FileReader();
                 reader.onload = function(e){
-                    html = `<img src=${e.target.result} style="width:100%; border-radius:10px" class="mb-2"/>`;
+                    var html = `<img src=${e.target.result} style="width:100%; border-radius:10px" class="mb-2"/>`;
                     $('#imagePreview' + index).html(html);
                     self.snapshot[index].pic = files[0];
                     // console.log(self.snapshot);
@@ -156,13 +155,12 @@ export default {
 
                     await axios.post('/term/add-recipe', formData, {maxRedirects: 0})
                     .then((response) => {
-                        // console.log(response);
-                        setTimeout(() => {
-                            let seq = response.data.r_seq;
-                            this.$router.push({ name: 'recipe', query: { seq } });
-                            this.isLoading = false;
-                            // location.href="#/view-recipe?seq=" + seq;
-                        }, 1000);
+                            setTimeout(() => {
+                                let seq = response.data.r_seq;
+                                this.$router.push({ name: 'recipe', query: { seq } });
+                                this.isLoading = false;
+                                // location.href="#/view-recipe?seq=" + seq;
+                            }, 1000);
                     }).catch((e)=>{ console.error('게시글 등록 실패 api 요청 에러:', e);});
                 
                 }

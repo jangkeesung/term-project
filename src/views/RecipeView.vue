@@ -3,8 +3,6 @@
         <NavBar />
         <Section v-if='recipeDTO' v-bind:dto='recipeDTO' />
         <Footer />
-
-
     </div>
 </template>
 <script>
@@ -31,6 +29,9 @@ export default {
       await axios.get("/term/view-recipe/" + this.$props.query)
       .then((response) =>{
           this.recipeDTO = response.data;
+          if (response.data.r_seq == null) {
+            this.$router.push('/');
+          }
         //   console.log(this.recipeDTO);
       });
     }   

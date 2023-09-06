@@ -2,22 +2,22 @@
         <!-- Product section-->
         <section class="py-5 px-5">
             <div class="h1 header-s row px-4 py-4">
-                <div class="col-md-9">{{ dto.r_subject }}</div>
+                <div class="col-md-9 r_subject">{{ dto.r_subject }}</div>
                 <div class="col-md-3 my-2">
                     <h5 class="w-r">{{dto.ct_name}}</h5>
                     <h5 class="w-r">👩‍🍳{{dto.r_writer}}</h5>   
                     <h5 class="w-r">{{dto.r_regdate.substring(0,10)}}</h5>   
                 </div>
             </div>
-            <div class="d-flex ingredients">
+            <!-- <div class="d-flex ingredients">
                 <div v-for="(ingredient, index) in dto.ingredientlist" :key="ingredient" class='ingredient px-3'>
                     {{ingredient.i_content}}: {{ingredient.i_quantity}}
                 </div>
-            </div>
+            </div> -->
             <div class="container px-4 px-lg-5 my-5" v-for="(snapshot, index) in dto.snapshotlist" key="snapshot">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-5"><img class="card-img-top mb-5 mb-md-0 s-img" 
-                        v-bind:src="require('@/assets/img/snapshot/'+snapshot.s_pic)" 
+                        v-bind:src="require('@/assets/img/snapshot/'+snapshot.s_pic)"
                         alt="..." /></div>
                     <div class="col-md-7">
                         <div class="small mb-1">Snapshot no.{{index + 1}}</div>

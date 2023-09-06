@@ -9,7 +9,8 @@
             <h1>작성한 레시피가 없습니다.</h1>
             <router-link to="/add-recipe" class="btn btn-secondary mt-3 mb-3">레시피 등록하러 가기</router-link>
         </div>
-        <Footer />
+        <Footer v-if="recipes.length > 0" />
+        <Blank v-else />
         <div v-if="isLoading" class="loading-container">
             <div class="loading">
                 <Fade-loader />
@@ -23,6 +24,7 @@ import Header from '../components/HomeHeader.vue';
 import Section from '../components/HomeSection.vue';
 import Footer from '../components/Footer.vue';
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue';
+import Blank from '../components/WhiteBody.vue';
 import axios from 'axios';
 export default {
     components: {
@@ -30,7 +32,8 @@ export default {
         Header,
         Section,
         Footer,
-        FadeLoader
+        FadeLoader,
+        Blank
     },
     data() {
         return {
