@@ -77,7 +77,7 @@ export default {
                 })
                 .then((response)=>{
                     if(response.data == 1) {
-                        //스위트알랏으로 성공여부 보여주고 로그인 페이지로 이동
+                        //스위트알랏으로 성공여부 보여주고 로그인 페이지로 이동X
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
@@ -86,7 +86,7 @@ export default {
                             timer: 1500
                         }).then(() => {
                             this.$emit('modalClose');
-                            this.$router.push('/login');
+                            // this.$router.push('/login');
                         });
                     } else {
                         if (response.data == -100) {

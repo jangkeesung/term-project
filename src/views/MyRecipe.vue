@@ -5,12 +5,13 @@
         <div v-if="recipes" >
             <Section :recipes="recipes" :my="my"/>
         </div>
-        <div v-else class="mt-5 mb-3">
-            <h1>작성한 레시피가 없습니다.</h1>
-            <router-link to="/add-recipe" class="btn btn-secondary mt-3 mb-3">레시피 등록하러 가기</router-link>
+        <div v-else class="mt-5 mb-5">
+            <div class="">&nbsp;</div>
+            <h1 class="mt-5">❌ 작성한 레시피가 없습니다.❌</h1>
+            <router-link to="/add-recipe" class="btn btn-secondary mt-5 mb-5">레시피 등록하러 가기</router-link>
         </div>
-        <Footer v-if="recipes.length > 0" />
-        <Blank v-else />
+        <Blank v-if="creating"/>
+        <Footer v-else/>
         <div v-if="isLoading" class="loading-container">
             <div class="loading">
                 <Fade-loader />
@@ -41,7 +42,7 @@ export default {
             recipes: [],
             page: 1,
             my: true,
-            norecipes: false
+            creating: true
         }
     },
     async created() {
@@ -58,10 +59,7 @@ export default {
         );
     },
     mounted() {
-        if (this.recipes == null) {
-            this.norecipes = true;
-        }
-        //사실 첫 페이지는 최대 8개만 가져와야 하는데 처음 렌더링할 때 스크롤이 짧아서 처음부터 스크롤 이벤트가 걸려서 한 줄 더 가져오게 되길래 준 딜레이
+        //첫 페이지는 최대 8개만 가져와야 하는데 처음 렌더링할 때 스크롤이 짧아서 처음부터 스크롤 이벤트가 걸려서 한 줄 더 가져오게 되길래 준 딜레이
         setTimeout(() =>{
             window.addEventListener('scroll', this.scrollHandler);
         },100);
@@ -81,10 +79,18 @@ export default {
                     this.recipes = response.data;
                     if (size < this.recipes.length) {
                         this.page++;
+                    } else {
+                        // 더 이상 다음 페이지가 없을 때 이벤트 제거
+                        window.removeEventListener('scroll', this.scrollHandler);
                     }
                 } else {
                     this.recipes = null;
+                    //내 레시피가 없을 경우 이벤트 제거 mounted에 타임아웃이 걸려 있어서 여기서도 타임아웃을 걸어야 이벤트리스너가 지워진다.
+                    setTimeout(() =>{
+                        window.removeEventListener('scroll', this.scrollHandler);
+                    },100);
                 }
+                this.creating = false;
             });
         },
         scrollHandler() {

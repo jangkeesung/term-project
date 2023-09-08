@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 </div>
-                <h3 class="mt-5" v-else>{{v_col}}: '{{ p_word }}'(으)로 조회된 검색 결과가 없습니다.</h3>
+                <h3 class="mt-5 norecipe" v-else>{{v_col}}: '{{ p_word }}'(으)로 조회된 검색 결과가 없습니다.</h3>
             </div>
         </section>
 </template>
@@ -48,6 +48,7 @@ export default {
         },
         search() {
             // console.log(this.s_col, this.s_word);
+            this.$store.commit('setColWord', {s_col:this.s_col, s_word:this.s_word});
             this.$emit('gosearch', this.s_col, this.s_word);
             this.$refs.input.blur();
         }
@@ -100,5 +101,9 @@ font-style: normal;
     .r_regdate {
         /* background-color: #CFF7AC; */
         color: #AAA;
+    }
+    .norecipe {
+        padding-top: 2rem;
+        height: 250px;
     }
 </style>

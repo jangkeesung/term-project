@@ -72,10 +72,13 @@ export default {
                 }
                 this.recipes = response.data;
                 if (size < this.recipes.length) {
+                    window.addEventListener('scroll', this.scrollHandler);
                     this.isSearch = false;
                     this.page++;
+                } else {
+                    //더 이상 다음 페이지가 없을 경우 이벤트 제거
+                    window.removeEventListener('scroll', this.scrollHandler);
                 }
-                // console.log(this.page);
             })
             .catch(e=>console.error(e));
         },
