@@ -46,10 +46,14 @@ export default {
             this.$router.push({name: 'recipe', query: { seq }});
         },
         search() {
-            // this.$router.push({name: 'search', query: { s_col: this.s_col, s_word: this.s_word }});
+            // this.$router.push({name: 'search', query: { s_category: 0, s_col: this.s_col, s_word: this.s_word }});
             // this.$router.push('/search?s_col='+this.s_col+'&s_word='+this.s_word);
+            if (this.s_word.trim() == '') {
+                //공백 입력 시 버튼 무효화
+                return false;
+            }
             this.$store.commit('setColWord', {s_col:this.s_col, s_word:this.s_word});
-            this.$router.push('/search');
+            this.$router.push('/search?category=0');
         }
     },
     data() {

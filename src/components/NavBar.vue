@@ -14,14 +14,17 @@
                         <li class="nav-item" v-if="$store.state.Username != null">
                             <router-link to="/my-recipe" class="nav-link active a-myrecipe" aria-current="page">내 레시피</router-link>
                         </li>
-                        <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{category}}</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <router-link :to="'/search?category=0'" class="dropdown-item" aria-current="page">전체</router-link>
+                                </li>
                                 <li v-for="(item, index) in categorylist" :key="item"  :value="item.seq">
                                     <router-link :to="'/search?category='+item.seq" class="dropdown-item" aria-current="page">{{item.name}}</router-link>
                                 </li>
                             </ul>
-                        </li> -->
+                        </li>
                     </ul>
                     <div class="d-flex">
                         <button v-if="$store.state.Username == null" class="btn btn-outline-dark me-3" @click="loginModal = true">
@@ -51,12 +54,28 @@ export default {
     // beforeCreate() {
     //     this.$store.dispatch('getMemberInfo');
     // },
+    props: ['p_category'],
     data() {
         return {
             registerModal: false,
             loginModal: false,
-            categorylist: []
+            categorylist: [],
+            category: '카테고리'
         };
+    },
+    computed: {
+        category() {
+            if (this.p_category == 0) {
+                return '전체';
+            }
+            if (this.p_category == undefined || this.p_category == null) {
+                return '카테고리';
+            }
+            const foundCategory = this.categorylist.find(item => this.p_category == item.seq);
+            if (foundCategory && foundCategory.name) {
+                return foundCategory.name;
+            }
+        }
     },
     created() {
         axios.get("/term/get-category")

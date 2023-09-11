@@ -48,8 +48,8 @@ export default createStore({
       if (token) {
         let config = {
           headers: {
-              "access-token": token
-          }
+            "Authorization": "Bearer " + token
+          },
         }
         await axios.get('/term/login/users', config)
         .then(response => {

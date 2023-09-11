@@ -72,7 +72,7 @@ export default {
                 let r_seq = this.dto.r_seq;
                 let config = {
                     headers: {
-                        "access-token": token
+                        "Authorization": "Bearer " + token
                     },
                     params: {r_seq: r_seq}
                 };
@@ -130,10 +130,5 @@ font-style: normal;
 .w-r {
     text-align: center;
     margin: 0;
-}
-.box-float {
-    bottom: 8%;
-    right: 3%;
-    position: fixed;
 }
 </style>

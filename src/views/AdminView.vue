@@ -1,16 +1,10 @@
 <template>
     <div>
-        <NavBar />
         <Section v-if='recipeDTO' v-bind:dto='recipeDTO' />
-        <Footer v-if="recipeDTO" />
-        <Blank v-else />
     </div>
 </template>
 <script>
-import NavBar from '../components/NavBar.vue';
 import Section from '../components/ViewSection.vue';
-import Footer from '../components/Footer.vue';
-import Blank from '../components/WhiteBody.vue';
 import axios from 'axios';
 export default {
     data() {
@@ -23,10 +17,7 @@ export default {
     },
     props: ['query'],
     components: {
-        NavBar,
         Section,
-        Footer,
-        Blank
     },
     async created() {
       await axios.get("/term/view-recipe/" + this.$props.query)
@@ -40,6 +31,12 @@ export default {
     }   
 }
 </script>
-<style scoped>
+<style>
+    .btn-float {
+        display: none !important;
+    }
 
+    #ub {
+        display: block !important;
+    }
 </style>

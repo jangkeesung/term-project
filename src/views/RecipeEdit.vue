@@ -3,7 +3,8 @@
         <NavBar />
         <Header />
         <Section v-if='recipeDTO' v-bind:dto='recipeDTO' />
-        <Footer />
+        <Footer v-if="recipeDTO" />
+        <Blank v-else />
         <div class="box-float">
             <UB />
         </div>
@@ -14,15 +15,16 @@ import NavBar from '../components/NavBar.vue';
 import Header from '../components/HomeHeader.vue';
 import Section from '../components/EditSection.vue';
 import Footer from '../components/Footer.vue';
+import Blank from '../components/WhiteBody.vue';
 import UB from '../components/UpButton.vue'
 import axios from 'axios';
-import router from '@/router';
 export default {
     components: {
         NavBar,
         Header,
         Section,
         Footer,
+        Blank,
         UB
     },
     beforeCreate() {
@@ -45,9 +47,4 @@ export default {
 }
 </script>
 <style scoped>
-    .box-float {
-        bottom: 8%;
-	    right: 3%;
-        position: fixed;
-    }
 </style>

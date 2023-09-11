@@ -94,7 +94,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   :root {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
   }
 }
 
@@ -141,6 +141,12 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   cursor: pointer;
   color: black;
 }
+
+.box-float {
+  bottom: 8%;
+  right: 3%;
+  position: fixed;
+} 
 
 h1, .h1 {
   font-size: calc(1.375rem + 1.5vw);

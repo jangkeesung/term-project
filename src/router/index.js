@@ -13,6 +13,12 @@ const routes = [
     props: route => ({ query: route.query.seq })
   },
   {
+    path: '/view-admin',
+    name: 'recipe',
+    component: () => import('../views/AdminView.vue'),
+    props: route => ({ query: route.query.seq })
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('../views/Login.vue')
@@ -37,7 +43,8 @@ const routes = [
     path: '/search',
     name: 'search',
     component: () => import('../views/SearchList.vue'),
-    props: route => ({ s_category: route.query.category})
+    props: route => ({ s_category: route.query.category })
+    // props: route => ({ s_category: route.query.category, s_col: route.query.col, s_word: route.query.word})
   },
   {
     path: '/mypage',
@@ -49,6 +56,10 @@ const routes = [
 
 const router = createRouter({
   history: createWebHashHistory(),
+  scrollBehavior(to, from, savedPosition) {
+    // 페이지 전환 시 스크롤 위치를 최상단으로 이동
+    return { top: 0 };
+  },
   routes
 })
 
