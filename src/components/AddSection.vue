@@ -158,8 +158,9 @@ export default {
                             setTimeout(() => {
                                 let seq = response.data.r_seq;
                                 this.$router.push({ name: 'recipe', query: { seq } });
+                                console.log(seq);
+                                // this.$router.push('/');
                                 this.isLoading = false;
-                                // location.href="#/view-recipe?seq=" + seq;
                             }, 1000);
                     }).catch((e)=>{ console.error('게시글 등록 실패 api 요청 에러:', e);});
                 

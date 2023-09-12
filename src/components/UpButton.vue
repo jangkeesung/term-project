@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="btn-float mb-2" id="ub" @click="up()">
+    <div class="btn-float mb-2" @click="up()">
         UP
     </div>
     <div class="btn-float mb-2" @click="bk()">

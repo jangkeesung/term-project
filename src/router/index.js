@@ -14,7 +14,7 @@ const routes = [
   },
   {
     path: '/view-admin',
-    name: 'recipe',
+    name: 'admin',
     component: () => import('../views/AdminView.vue'),
     props: route => ({ query: route.query.seq })
   },

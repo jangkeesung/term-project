@@ -60,7 +60,7 @@ export default {
             registerModal: false,
             loginModal: false,
             categorylist: [],
-            category: '카테고리'
+            // category: '카테고리'
         };
     },
     computed: {
@@ -68,7 +68,7 @@ export default {
             if (this.p_category == 0) {
                 return '전체';
             }
-            if (this.p_category == undefined || this.p_category == null) {
+            if (this.p_category == undefined || this.p_category == null || this.p_category == '') {
                 return '카테고리';
             }
             const foundCategory = this.categorylist.find(item => this.p_category == item.seq);

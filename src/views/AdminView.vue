@@ -35,8 +35,4 @@ export default {
     .btn-float {
         display: none !important;
     }
-
-    #ub {
-        display: block !important;
-    }
 </style>

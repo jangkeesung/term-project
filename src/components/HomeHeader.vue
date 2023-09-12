@@ -1,4 +1,5 @@
 <template lang="">
+
     <!-- Header-->
     <div v-if="$store.state.bannerImg">
         <a :href="bannerURL" target="_blank" class="bg-grad container px-4 px-lg-5 my-0 banner-container d-flex justify-content-center align-items-center" :style="bannerStyle">
@@ -31,11 +32,46 @@ export default {
         bannerImg() {
             return this.$store.state.bannerImg;
         },
+        // bannerStyle() {
+        //     if (this.bannerImg) {
+        //         let url = "";
+        //         try {
+        //             url = require(`@/assets/img/banner/${this.bannerImg}`);
+        //         } catch (error) {
+        //             console.log(error);
+        //             //사진이 바뀌어서 에러가 날 경우 다시 데이터를 가져오는 처리
+        //             if (error.message.startsWith('Cannot find module')) {
+        //                 this.$store.dispatch('getBanner').then(()=>{
+        //                     url = require(`@/assets/img/banner/${this.bannerImg}`);
+        //                 });
+        //             }
+        //         }
+        //         return {
+        //             backgroundImage: `url(${url})`
+        //         };
+        //     }
+        //     return {};
+        // }
         bannerStyle() {
             if (this.bannerImg) {
-                let url = require(`@/assets/img/banner/${this.bannerImg}`);
+                let url = "";
+                try {
+                // 이미지 파일을 require.context를 사용하여 동적으로 로드
+                const images = require.context('@/assets/img/banner', false, /\.(jpg|jpeg|png|gif|svg)$/);
+                url = images(`./${this.bannerImg}`);
+                } catch (error) {
+                console.log(error);
+                // 이미지가 없는 경우 데이터를 다시 가져오는 처리
+                if (error.message.startsWith('Cannot find module')) {
+                    this.$store.dispatch('getBanner').then(() => {
+                    // 데이터를 다시 가져온 후 이미지 파일을 다시 로드
+                    const images = require.context('@/assets/img/banner', false, /\.(jpg|jpeg|png|gif|svg)$/);
+                    url = images(`./${this.bannerImg}`);
+                    });
+                }
+                }
                 return {
-                    backgroundImage: `url(${url})`
+                backgroundImage: `url(${url})`
                 };
             }
             return {};
