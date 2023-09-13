@@ -2,7 +2,7 @@
         <!-- Section-->
         <section class="py-5" v-if="recipes">
             <div class="container px-4 px-lg-5 mt-2">
-                <h1 class="pb-5 all-h1">&lt; {{s_category}} 레시피 검색 &gt;</h1>
+                <h1 class="pb-5 all-h1">&lt; {{s_category}} 레시피 &gt;</h1>
                 <div class="navbar navbar-light bg-light mb-2">
                     <div class="container-fluid">
                         <div class="navbar-brand">레시피 검색

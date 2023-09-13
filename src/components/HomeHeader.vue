@@ -85,11 +85,9 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
-    min-height: 300px;
     position: relative;
-
 }
-.bg-grad::before {
+/* .bg-grad::before {
     content: '';
     display: block;
     background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
@@ -99,6 +97,31 @@ export default {
     top: 0;
     left: 0;
     z-index: -1;
-    /* opacity: 0.5; */
+} */
+
+@media (min-width: 576px) {
+    .banner-container {
+    height: 123px;
+  }
+}
+@media (min-width: 768px) {
+    .banner-container {
+    height: 165px;
+  }
+}
+@media (min-width: 992px) {
+    .banner-container {
+    height: 219px;
+  }
+}
+@media (min-width: 1200px) {
+    .banner-container {
+    height: 260px;
+  }
+}
+@media (min-width: 1400px) {
+  .banner-container {
+    height: 300px;
+  }
 }
 </style>
