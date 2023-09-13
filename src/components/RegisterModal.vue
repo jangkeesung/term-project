@@ -30,7 +30,7 @@
 						<div class="mb-1">이름</div>
 						<div class="form-floating mb-3">
 							<input type="text" class="form-control" id="name" v-model="name" @keyup="namecheck" maxlength="6"
-								placeholder="name" name="m_name" autocomplete="off" required> <label for="floatingPassword">한글 이름</label>
+								placeholder="name" name="m_name" autocomplete="off" required> <label for="floatingPassword">한글 이름(2~6자)</label>
 						</div>
 						<div class="mb-1">연락처</div>
 						<div class="form-floating">

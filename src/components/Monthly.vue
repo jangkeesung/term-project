@@ -12,7 +12,7 @@
                             <div class="card-body p-4">
                                 <div class="text-center">
                                     <span class="fw-bolder r_category px-3 py-1">{{recipe.r_category}}</span>
-                                    <h5 class="fw-bolder r_subject mt-3">{{recipe.r_subject}}</h5>
+                                    <h5 class="fw-bolder r_subject mt-3">{{parsedSubject(recipe.r_subject)}}</h5>
                                 </div>
                                 <span class="d-flex justify-content-around row"><span class="r_writer">👩‍🍳{{recipe.r_writer}}</span><span class="r_regdate">{{recipe.r_regdate.substr(0,10)}}</span></span>
                             </div>
@@ -30,7 +30,13 @@ methods: {
     linkView(seq) {
         // this.$store.state.r_seq = recipe.r_seq;
         this.$router.push({name: 'recipe', query: { seq }});
-    }
+    },
+    parsedSubject(subject) {
+            const maxLength = 20;
+            return subject.length > maxLength
+                ? subject.slice(0, maxLength) + "..."
+                : subject;
+        }
 }
 }
 </script>

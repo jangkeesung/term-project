@@ -27,7 +27,7 @@
                             <div class="card-body p-4">
                                 <div class="text-center">
                                     <span class="fw-bolder r_category px-3 py-1">{{recipe.r_category}}</span>
-                                    <h5 class="fw-bolder r_subject mt-3">{{recipe.r_subject}}</h5>
+                                    <h5 class="fw-bolder r_subject mt-3">{{parsedSubject(recipe.r_subject)}}</h5>
                                 </div>
                                 <span class="d-flex justify-content-around row"><span class="r_writer">👩‍🍳{{recipe.r_writer}}</span><span class="r_regdate">{{recipe.r_regdate.substr(0,10)}}</span></span>
                             </div>
@@ -52,10 +52,16 @@ export default {
                 //공백 입력 시 버튼 무효화
                 return false;
             }
-            this.$store.commit('setColWord', {s_col:this.s_col, s_word:this.s_word});
+            this.$store.commit('setColWord', {s_col:this.s_col, s_word:this.s_word.trim()});
             this.$router.push('/search?category=0');
+        },
+        parsedSubject(subject) {
+            const maxLength = 20;
+            return subject.length > maxLength
+                ? subject.slice(0, maxLength) + "..."
+                : subject;
         }
-    },
+     },
     data() {
         return {
             s_col:"r_subject",

@@ -56,19 +56,19 @@ export default {
             if (this.bannerImg) {
                 let url = "";
                 try {
-                // 이미지 파일을 require.context를 사용하여 동적으로 로드
-                const images = require.context('@/assets/img/banner', false, /\.(jpg|jpeg|png|gif|svg)$/);
-                url = images(`./${this.bannerImg}`);
-                } catch (error) {
-                console.log(error);
-                // 이미지가 없는 경우 데이터를 다시 가져오는 처리
-                if (error.message.startsWith('Cannot find module')) {
-                    this.$store.dispatch('getBanner').then(() => {
-                    // 데이터를 다시 가져온 후 이미지 파일을 다시 로드
+                    // 이미지 파일을 require.context를 사용하여 동적으로 로드
                     const images = require.context('@/assets/img/banner', false, /\.(jpg|jpeg|png|gif|svg)$/);
                     url = images(`./${this.bannerImg}`);
-                    });
-                }
+                } catch (error) {
+                    console.log(error);
+                    // 이미지가 없는 경우 데이터를 다시 가져오는 처리
+                    if (error.message.startsWith('Cannot find module')) {
+                        this.$store.dispatch('getBanner').then(() => {
+                        // 데이터를 다시 가져온 후 이미지 파일을 다시 로드
+                        const images = require.context('@/assets/img/banner', false, /\.(jpg|jpeg|png|gif|svg)$/);
+                        url = images(`./${this.bannerImg}`);
+                        });
+                    }
                 }
                 return {
                 backgroundImage: `url(${url})`
