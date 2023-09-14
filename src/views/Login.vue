@@ -8,12 +8,12 @@
             <div class="col-sm-10 col-md-4">
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingInput"
-                        placeholder="u=UserId" name="username" v-model="id" required> <label
+                        placeholder="u=UserId" name="username" v-model="id" required maxlength="15"> <label
                         for="floatingInput">아이디</label>
                 </div>
                 <div class="form-floating">
                     <input type="password" class="form-control" id="floatingPassword"
-                        placeholder="Password" name="password" v-model="pw" required> <label for="floatingPassword">패스워드</label>
+                        placeholder="Password" name="password" v-model="pw" required maxlength="25"> <label for="floatingPassword">패스워드</label>
                 </div>
                 <div class="container-fluid p-0 mt-3">
                     <button class="btn w-100 btn-login" type="submit">로그인</button>
