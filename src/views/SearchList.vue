@@ -57,7 +57,7 @@ export default {
         await this.getRecipe(this.col, this.word);
     },
     mounted() {
-        console.log('mounted');
+        // console.log('mounted');
         //사실 첫 페이지는 최대 8개만 가져와야 하는데 처음 렌더링할 때 스크롤이 짧아서 처음부터 스크롤 이벤트가 걸려서 한 줄 더 가져오게 되길래 준 딜레이
         setTimeout(() =>{
             window.addEventListener('scroll', this.scrollHandler);
@@ -65,7 +65,7 @@ export default {
         window.scrollTo(0, 0);
     },
     beforeUnmount() {
-        console.log('beforeUnmount');
+        // console.log('beforeUnmount');
         //페이지 이동 시 스크롤 이벤트 해제
         window.removeEventListener('scroll', this.scrollHandler);
         //페이지 이동 시 검색 기록 초기화
@@ -118,7 +118,7 @@ export default {
                 }, 500)
         },
         scrollHandler() {
-            console.log(this.page);
+            // console.log(this.page);
             let val = window.innerHeight + window.scrollY;
 
             if(val > document.body.offsetHeight - 1 && !this.isLoading){
@@ -126,7 +126,7 @@ export default {
                 setTimeout(()=>{
                     this.getRecipe(this.col, this.word).then(()=>{
                         this.isLoading = false;
-                        console.log('스크롤이벤트 발생');
+                        // console.log('스크롤이벤트 발생');
                     });
                 }, 500)
             }

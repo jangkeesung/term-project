@@ -158,7 +158,7 @@ export default {
                             setTimeout(() => {
                                 let seq = response.data.r_seq;
                                 this.$router.push({ name: 'recipe', query: { seq } });
-                                console.log(seq);
+                                // console.log(seq);
                                 // this.$router.push('/');
                                 this.isLoading = false;
                             }, 1000);

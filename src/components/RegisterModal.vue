@@ -18,13 +18,13 @@
 						<div class="mb-1">비밀번호</div>
 						<div class="form-floating mb-3">
 							<input type="password" class="form-control" id="password" v-model="pw" @input="pwcheck"
-								placeholder="Password" name="m_pw" required> <label for="floatingPassword">
+								placeholder="Password" name="m_pw" required maxlength="25"> <label for="floatingPassword">
 								6~25자(알파벳, 숫자 필수)</label>
 						</div>
 						<div class="mb-1">비밀번호 확인</div>
 						<div class="form-floating mb-3">
 							<input type="password" class="form-control" id="passwordcheck" v-model="pwc" @input="pwccheck"
-								placeholder="Password" required> <label for="floatingPassword">비밀번호를
+								placeholder="Password" required maxlength="25"> <label for="floatingPassword">비밀번호를
 								다시 입력하세요</label>
 						</div>
 						<div class="mb-1">이름</div>
@@ -90,7 +90,7 @@ export default {
                         });
                     } else {
                         if (response.data == -100) {
-                            console.log('아이디 중복');
+                            // console.log('아이디 중복');
                         }
                         Swal.fire({
                             position: 'center',

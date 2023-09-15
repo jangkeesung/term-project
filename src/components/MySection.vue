@@ -22,19 +22,19 @@
             <div class="mb-1">현재 비밀번호</div>
             <div class="form-floating mb-3">
                 <input type="password" class="form-control" id="oldpassword" v-model="opw"
-                placeholder="Password" name="m_pw" required> <label for="floatingPassword">
+                placeholder="Password" name="m_pw" required maxlength="25"> <label for="floatingPassword">
                     현재 비밀번호를 입력해주세요.</label>
             </div>
             <div class="mb-1">새 비밀번호</div>
             <div class="form-floating mb-3">
                 <input type="password" class="form-control" id="password" v-model="npw" @input="pwcheck"
-                placeholder="Password" name="m_pw" required> <label for="floatingPassword">
+                placeholder="Password" name="m_pw" required maxlength="25"> <label for="floatingPassword">
                     6~25자(알파벳, 숫자 필수)</label>
             </div>
             <div class="mb-1">새 비밀번호 확인</div>
             <div class="form-floating mb-3">
                 <input type="password" class="form-control" id="passwordcheck" v-model="cpw" @input="pwccheck"
-                placeholder="Password" required> <label for="floatingPassword">비밀번호를
+                placeholder="Password" required maxlength="25"> <label for="floatingPassword">비밀번호를
                 다시 입력하세요.</label>
             </div>
             <button type="submit" class="btn btn-primary mt-2">비밀번호 수정</button>
