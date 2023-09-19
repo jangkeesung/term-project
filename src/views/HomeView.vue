@@ -40,7 +40,7 @@ export default {
             isLoading: false, // 로딩 스피너
             recipes: null,
             monthlyRecipes: null,
-            page: 1
+            page: 0
         }
     },
     created() {
@@ -58,13 +58,25 @@ export default {
     },
     methods: {
         async getRecipe() {
-            await axios.get('/term/recipelist', {params: {page: this.page}})
+            await axios.get('/term/recipelist', {params: {page: this.page, rownum: this.$store.state.rownum}})
             .then((response)=>{
                 let size = 0;
                 if (this.recipes !== null) {
                     size = this.recipes.length;
+                } else {
+                    this.recipes = [];
                 }
-                this.recipes = response.data;
+                // response.data;
+                response.data.forEach((item, index)=>{
+                    this.recipes.push({
+                        r_seq: item.r_seq,
+                        r_pic: item.r_pic,
+                        r_subject: item.r_subject,
+                        r_category: item.r_category,
+                        r_regdate: item.r_regdate,
+                        r_writer: item.r_writer
+                    });
+                });
                 if (size < this.recipes.length) {
                     this.page++;
                 } else {

@@ -40,7 +40,7 @@ export default {
             isLoading: false, // 로딩 스피너
             isSearch: false, // 검색 버튼 클릭
             recipes: null,
-            page: 1,
+            page: 0,
             col: "",
             word: ""
         }
@@ -74,38 +74,61 @@ export default {
     watch: {
         async s_category() {
             this.recipes = null;
-            this.page = 1;
+            this.page = 0;
             this.word = '';
             this.col = 'r_subject';
             window.scrollTo(0, 0);
+            window.addEventListener('scroll', this.scrollHandler);
             await this.getRecipe(this.col, this.word);
         }
     },
     methods: {
+        //레시피를 가져오는 메소드 rownum의 개수만큼 rownum * page부터
         async getRecipe(col, word) {
-            await axios.get('/term/search-recipe', {params: {page: this.page, s_col: col, s_word: word.trim(), s_category: this.s_category}})
+            await axios.get('/term/search-recipe', {params: {page: this.page, rownum: this.$store.state.rownum, s_col: col, s_word: word.trim(), s_category: this.s_category}})
             .then((response)=>{
 
-                let size = 0;
-                if (this.recipes !== null && !this.isSearch) {
-                    size = this.recipes.length;
+                // let size = 0;
+                // if (this.recipes !== null && !this.isSearch) {
+                //     size = this.recipes.length;
+                // } else {
+                //     this.recipes = [];
+                // }
+
+                //가져오기 전 레시피가 null이면 array로 선언
+                if (this.recipes == null) {
+                    this.recipes = [];
                 }
-                this.recipes = response.data;
-                if (size < this.recipes.length) {
-                    window.addEventListener('scroll', this.scrollHandler);
+                
+                //만약 가져온 레시피의 개수가 0보다 클 경우
+                if (response.data.length > 0) {
+                    //가져온 리스트를 레시피에 push
+                    response.data.forEach((item, index)=>{
+                        this.recipes.push({
+                            r_seq: item.r_seq,
+                            r_pic: item.r_pic,
+                            r_subject: item.r_subject,
+                            r_category: item.r_category,
+                            r_regdate: item.r_regdate,
+                            r_writer: item.r_writer
+                        });
+                    });
+                    // window.addEventListener('scroll', this.scrollHandler);
                     this.isSearch = false;
                     this.page++;
                 } else {
-                    //더 이상 다음 페이지가 없을 경우 이벤트 제거
+                    //0개 여서 더 이상 다음 페이지가 없을 경우 이벤트 제거
                     window.removeEventListener('scroll', this.scrollHandler);
                 }
             })
             .catch(e=>console.error(e));
         },
         handleSearch(ns_col, ns_word) {
-            this.page = 1;
+            this.recipes = null;
+            this.page = 0;
             this.isSearch = true;
             this.isLoading = true;
+            window.addEventListener('scroll', this.scrollHandler);
             setTimeout(()=>{
                 this.getRecipe(ns_col, ns_word).then(()=>{
                     window.scrollTo(0, 0);
@@ -128,7 +151,7 @@ export default {
                         this.isLoading = false;
                         // console.log('스크롤이벤트 발생');
                     });
-                }, 500)
+                }, 500);
             }
         }
     },

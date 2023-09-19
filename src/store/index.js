@@ -9,7 +9,8 @@ export default createStore({
     bannerImg: '',
     bannerURL: '',
     s_col: '',
-    s_word: ''
+    s_word: '',
+    rownum: 8
   },
   getters: {
   },
