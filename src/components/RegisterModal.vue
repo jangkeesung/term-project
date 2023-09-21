@@ -91,6 +91,7 @@ export default {
                     } else {
                         if (response.data == -100) {
                             // console.log('아이디 중복');
+                            alert('그 사이에 누가 중복된 아이디로 가입한 듯 합니다.');
                         }
                         Swal.fire({
                             position: 'center',
