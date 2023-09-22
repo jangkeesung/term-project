@@ -90,22 +90,11 @@ export default {
                         });
                     } else {
                         if (response.data == -100) {
-                            // console.log('아이디 중복');
-                            alert('그 사이에 누가 중복된 아이디로 가입한 듯 합니다.');
+                            this.registerFailMessage('중복된 아이디가 존재합니다.');
+                            return false;
                         }
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'error',
-                            title: '회원가입에 실패했습니다.',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            this.$emit('modalClose');
-                            this.id  = '';
-                            this.pw = '';
-                            this.name = '';
-                            this.tel = '';
-                        });
+                        this.registerFailMessage('회원가입에 실패하였습니다.');
+                        return false;
                     }
                 })
                 .catch((e)=>console.error(e));
@@ -211,6 +200,21 @@ export default {
                 telInput.classList.remove('is-valid');
                 telInput.classList.add('is-invalid');
             }
+        },
+        registerFailMessage(message) {
+            Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: message,
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    this.$emit('modalClose');
+                    this.id  = '';
+                    this.pw = '';
+                    this.name = '';
+                    this.tel = '';
+                });
         }
     }
 
