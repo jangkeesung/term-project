@@ -22,7 +22,7 @@
                             </div>
                             <div class="custom-file col-md-5">
                                 <div :id="'imagePreview' + index" class="mb-2">
-                                    <img :src="require('@/assets/img/snapshot/' + item.opic)" style="width:100%; border-radius:10px" class="mb-2"/>
+                                    <img :src="'http://localhost:80/images/snapshot/' + item.opic" style="width:100%; border-radius:10px" class="mb-2"/>
                                 </div>
                                 <input style="display:none;" 
                                 :id="'customFile' + index" type="file" 
@@ -187,14 +187,14 @@ export default {
                     return false;
                 }
                 
-                formData.append('r_seq', this.dto.r_seq);
+                // formData.append('r_seq', this.dto.r_seq);
                 formData.append('subject', this.subject);
                 formData.append('category', this.category);
                 // formData.append('writer', this.$store.state.Username); > 수정에서 불필요
     
                 if (valid) {
                     
-                    await axios.patch('/term/edit-recipe', formData).then((response) => {
+                    await axios.put(`/term/edit-recipe/${this.dto.r_seq}`, formData).then((response) => {
 
                         setTimeout(() => {
                             let seq = this.dto.r_seq;    

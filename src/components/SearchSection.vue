@@ -25,7 +25,7 @@
                     <div class="col mb-5" v-for="(recipe, index) in recipes" key="recipe">
                         <div class="card h-100 card-recipe" @click="this.linkView(recipe.r_seq)">
                             <!-- Product image require('@/assets/img/'+recipe.snapshotlist[0].s_pic) -->
-                            <img class="card-img-top img-list" v-bind:src="require('@/assets/img/snapshot/'+recipe.r_pic)" alt="..." />
+                            <img class="card-img-top img-list" v-bind:src="'http://localhost:80/images/snapshot/'+recipe.r_pic" alt="..." />
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
