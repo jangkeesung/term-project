@@ -21,9 +21,9 @@ export default {
         // }
     },
     methods: {
-        goBanner() {
-            location.href = this.bannerText;
-        }
+        // goBanner() {
+        //     location.href = this.bannerText;
+        // }
     },
     computed: {
         bannerURL() {
